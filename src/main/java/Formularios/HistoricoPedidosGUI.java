@@ -69,7 +69,7 @@ public class HistoricoPedidosGUI extends JFrame{
             StringBuilder sb = new StringBuilder();
             sb.append("ID Pedido: ").append(pedido.getIdPedido()).append("\n");
             sb.append("  Código de Barras: ").append(pedido.getCodBarras().getCodigoApenasNumeros()).append("\n");
-            sb.append("  CNPJ Fornecedor: ").append(pedido.getCpnjFornecedor().getrCnpjFormatado()).append("\n");
+            sb.append("  CNPJ Fornecedor: ").append(pedido.getCpnjFornecedor()).append("\n");
             sb.append("  Quantidade: ").append(pedido.getQuantidade()).append("\n");
             sb.append("  Data do Pedido: ").append(pedido.getDataPedido()).append("\n");
             sb.append("  Preço Total: ").append(pedido.getPreco()).append("\n");

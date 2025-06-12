@@ -8,7 +8,7 @@ import Services.*;
 public class Estoque {
     private Long idEstoque;
     private CodigoDeBarras codBarras;
-    private CNPJ cnpjFornecedor;
+    private String cnpjFornecedor;
     private BigDecimal precoVenda;
     private BigDecimal precoCompra;
     private int quantidade;
@@ -17,7 +17,7 @@ public class Estoque {
     private boolean baixoEstoque;
 
 
-    public Estoque(Long idEstoque, CodigoDeBarras codBarras, CNPJ cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
+    public Estoque(Long idEstoque, CodigoDeBarras codBarras, String cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
         this.idEstoque = idEstoque;
         this.codBarras = codBarras;
         this.cnpjFornecedor = cnpjFornecedor;
@@ -40,7 +40,7 @@ public class Estoque {
         return codBarras;
     }
 
-    public CNPJ getCnpjFornecedor() {
+    public String getCnpjFornecedor() {
         return cnpjFornecedor;
     }
 
@@ -77,7 +77,7 @@ public class Estoque {
         this.codBarras = codBarras;
     }
 
-    public void setCnpjFornecedor(CNPJ cnpjFornecedor) {
+    public void setCnpjFornecedor(String cnpjFornecedor) {
         this.cnpjFornecedor = cnpjFornecedor;
     }
 

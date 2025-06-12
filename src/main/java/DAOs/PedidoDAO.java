@@ -27,7 +27,7 @@ public class PedidoDAO {
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setLong(1, obj.getIdPedido());
             stmt.setString(2, obj.getCodBarras().getCodigoApenasNumeros());
-            stmt.setString(3, obj.getCpnjFornecedor().getCnpjApenasNumeros());
+            stmt.setString(3, obj.getCpnjFornecedor());
             stmt.setInt(4, obj.getQuantidade());
             stmt.setDate(5, Date.valueOf(obj.getDataPedido()));
             stmt.setBigDecimal(6, obj.getPreco());
@@ -52,7 +52,7 @@ public class PedidoDAO {
             if (retorno.next()) {
                 Long idRegistroPedido = retorno.getLong("idRegistroPedido");
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
-                CNPJ cnpjFornecedorObj = new CNPJ(retorno.getString("cnpjFornecedor"));
+                String cnpjFornecedor = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
                 Date sqlDate = retorno.getDate("dataDoPedido");
 
@@ -65,7 +65,7 @@ public class PedidoDAO {
 
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
 
-                obj = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorObj, quantidade, dataPedido, preco);
+                obj = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedor, quantidade, dataPedido, preco);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class PedidoDAO {
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setString(1, obj.getCodBarras().getCodigoApenasNumeros());
-            stmt.setString(2, obj.getCpnjFornecedor().getCnpjApenasNumeros());
+            stmt.setString(2, obj.getCpnjFornecedor());
             stmt.setInt(3, obj.getQuantidade());
 
             if (obj.getDataPedido() != null) {
@@ -133,7 +133,7 @@ public class PedidoDAO {
             if (retorno.next()) { // Usa if em vez de while, já que esperamos apenas um
                 Long idRegistroPedido = retorno.getLong("idRegistroPedido");
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
-                CNPJ cnpjFornecedorObj = new CNPJ(retorno.getString("cnpjFornecedor"));
+                String cnpjFornecedor = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
                 Date sqlDate = retorno.getDate("dataDoPedido");
 
@@ -145,7 +145,7 @@ public class PedidoDAO {
                 }
 
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
-                pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorObj, quantidade, dataPedido, preco);
+                pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedor, quantidade, dataPedido, preco);
             }
         } catch (SQLException | IllegalArgumentException e) {
             e.printStackTrace();
@@ -167,7 +167,7 @@ public class PedidoDAO {
             if (retorno.next()) { // Usa if em vez de while
                 Long idRegistroPedido = retorno.getLong("idRegistroPedido");
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
-                CNPJ cnpjFornecedorObj = new CNPJ(retorno.getString("cnpjFornecedor"));
+                String cnpjFornecedor = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
                 Date sqlDate = retorno.getDate("dataDoPedido");
 
@@ -179,7 +179,7 @@ public class PedidoDAO {
                 }
 
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
-                pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorObj, quantidade, dataPedido, preco);
+                pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedor, quantidade, dataPedido, preco);
             }
         } catch (SQLException | IllegalArgumentException e) {
             e.printStackTrace();

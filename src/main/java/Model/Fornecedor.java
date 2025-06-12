@@ -1,14 +1,12 @@
 package Model;
 
-import Services.CNPJ;
-
 public class Fornecedor {
-    private CNPJ cnpj;
+    private String cnpj;
     private String nome;
     private String endereco;
     private String contato;
 
-    public Fornecedor(CNPJ cnpj, String nome, String endereco, String contato) {
+    public Fornecedor(String cnpj, String nome, String endereco, String contato) {
         setCnpj(cnpj);
         setNome(nome);
         setEndereco(endereco);
@@ -18,11 +16,11 @@ public class Fornecedor {
     public Fornecedor() {
     }
 
-    public CNPJ getCnpj() {
+    public String getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(CNPJ cnpj) {
+    public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }
 

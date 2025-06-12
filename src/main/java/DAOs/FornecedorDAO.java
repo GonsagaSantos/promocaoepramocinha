@@ -1,7 +1,7 @@
 package DAOs;
 
 import Model.Fornecedor;
-import Services.CNPJ;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +18,7 @@ public class FornecedorDAO {
                 "informacoesDeContato)" +
                 "VALUES (?,?,?,?)";
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setString(1, obj.getCnpj().getCnpjApenasNumeros());
+            stmt.setString(1, obj.getCnpj());
             stmt.setString(2, obj.getNome());
             stmt.setString(3, obj.getEndereco());
             stmt.setString(4, obj.getContato());
@@ -43,9 +43,7 @@ public class FornecedorDAO {
             if (resultSet.next()) {
                 obj = new Fornecedor();
 
-                CNPJ cnpjObj = new CNPJ(resultSet.getString("cnpj"));
-                obj.setCnpj(cnpjObj);
-
+                obj.setCnpj(resultSet.getString("cnpj"));
                 obj.setNome(resultSet.getString("nome"));
                 obj.setEndereco(resultSet.getString("endereco"));
                 obj.setContato(resultSet.getString("informacoesDeContato"));
@@ -72,7 +70,7 @@ public class FornecedorDAO {
             stmt.setString(1, obj.getNome());
             stmt.setString(2, obj.getEndereco());
             stmt.setString(3, obj.getContato());
-            stmt.setString(4, obj.getCnpj().getCnpjApenasNumeros());
+            stmt.setString(4, obj.getCnpj());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

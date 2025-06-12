@@ -28,7 +28,7 @@ public class EstoqueDAO {
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setLong(1, obj.getIdEstoque());
             stmt.setString(2, obj.getCodBarras().getCodigoApenasNumeros());
-            stmt.setString(3, obj.getCnpjFornecedor().getCnpjApenasNumeros());
+            stmt.setString(3, obj.getCnpjFornecedor());
             stmt.setBigDecimal(4, obj.getPrecoVenda());
             stmt.setBigDecimal(5, obj.getPrecoCompra());
             stmt.setInt(6, obj.getQuantidade());
@@ -66,9 +66,7 @@ public class EstoqueDAO {
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
                 obj.setCodBarras(codigoDeBarrasObj);
 
-                CNPJ cnpjFornecedor = new CNPJ(retorno.getString("cnpjFornecedor"));
-                obj.setCnpjFornecedor(cnpjFornecedor);
-
+                obj.setCnpjFornecedor(retorno.getString("cnpjFornecedor"));
                 obj.setPrecoVenda(retorno.getBigDecimal("precoVenda"));
                 obj.setPrecoCompra(retorno.getBigDecimal("precoCompra"));
                 obj.setQuantidade(retorno.getInt("quantidade"));
@@ -107,7 +105,7 @@ public class EstoqueDAO {
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setString(1, obj.getCodBarras().getCodigoApenasNumeros());
-            stmt.setString(2, obj.getCnpjFornecedor().getCnpjApenasNumeros());
+            stmt.setString(2, obj.getCnpjFornecedor());
             stmt.setBigDecimal(3, obj.getPrecoVenda());
             stmt.setBigDecimal(4, obj.getPrecoCompra());
             stmt.setInt(5, obj.getQuantidade());
