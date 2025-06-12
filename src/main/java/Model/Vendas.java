@@ -1,22 +1,22 @@
 package Model;
 
 import Enum.FormaPagamento;
+import Services.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Vendas {
     private Long idVenda;
-    private String codBarrasNF;
+    private CodigoDeBarras codBarrasNF;
     private FormaPagamento forma_pagamento;
     private BigDecimal precoTotalVenda;
     private BigDecimal valorRecebido;
     private BigDecimal valorTroco;
     private LocalDate dataVenda;
-    private String cpf_cliente;
+    private CPF cpf_cliente;
 
-    public Vendas(Long idVenda, String codBarrasNF, FormaPagamento forma_pagamento, BigDecimal precoTotalVenda, BigDecimal valorRecebido, BigDecimal valorTroco, LocalDate dataVenda, String cpf_cliente) {
+    public Vendas(Long idVenda, CodigoDeBarras codBarrasNF, FormaPagamento forma_pagamento, BigDecimal precoTotalVenda, BigDecimal valorRecebido, BigDecimal valorTroco, LocalDate dataVenda, CPF cpf_cliente) {
         setIdVenda(idVenda);
         setCodBarrasNF(codBarrasNF);
         setForma_pagamento(forma_pagamento);
@@ -35,11 +35,11 @@ public class Vendas {
         this.idVenda = idVenda;
     }
 
-    public String getCodBarrasNF() {
+    public CodigoDeBarras getCodBarrasNF() {
         return codBarrasNF;
     }
 
-    public void setCodBarrasNF(String codBarrasNF) {
+    public void setCodBarrasNF(CodigoDeBarras codBarrasNF) {
         this.codBarrasNF = codBarrasNF;
     }
 
@@ -83,11 +83,11 @@ public class Vendas {
         this.dataVenda = dataVenda;
     }
 
-    public String getCpf_cliente() {
+    public CPF getCpf_cliente() {
         return cpf_cliente;
     }
 
-    public void setCpf_cliente(String cpf_cliente) {
+    public void setCpf_cliente(CPF cpf_cliente) {
         this.cpf_cliente = cpf_cliente;
     }
 }
