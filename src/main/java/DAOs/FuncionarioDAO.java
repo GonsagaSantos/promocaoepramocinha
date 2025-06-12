@@ -61,7 +61,27 @@ public class FuncionarioDAO {
         return obj;
     }
 
+    public void alterar(Funcionario obj) {
+        this.conn.conectar();
+        String query = "UPDATE funcionarios SET " +
+                "nome = ?, " +
+                "cargo = ?, " +
+                "nivelDePermissao = ? " +
+                "WHERE cpf = ?";
 
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, obj.getNome());
+            stmt.setString(2, obj.getCargo().name());
+            stmt.setString(3, obj.getPermissao().name());
+            stmt.setString(4, obj.getCpf().getCpfSomenteNumeros());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
 
     public void excluir(String cpfFuncionario) {
         this.conn.conectar();

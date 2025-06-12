@@ -52,7 +52,27 @@ public class ProdutosDAO {
         return obj;
     }
 
+    public void alterar(Produto obj) {
+        this.conn.conectar();
+        String query = "UPDATE produtos_cadastrados SET " +
+                "nome = ?, " +
+                "categoria = ?, " +
+                "marca = ? " +
+                "WHERE codigoDeBarras = ?";
 
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, obj.getNome());
+            stmt.setString(2, obj.getCategoria());
+            stmt.setString(3, obj.getMarca());
+            stmt.setString(4, obj.getCodBarras().getCodigoApenasNumeros());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
 
     public void excluir(String codigoDeBarras) {
         this.conn.conectar();

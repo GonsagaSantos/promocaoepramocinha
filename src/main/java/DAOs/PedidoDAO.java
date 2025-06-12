@@ -75,8 +75,37 @@ public class PedidoDAO {
         return obj;
     }
 
+    public void alterar(Pedido obj) {
+        this.conn.conectar();
+        String query = "UPDATE pedido SET " +
+                "codigoDeBarras = ?, " +
+                "cnpjFornecedor = ?, " +
+                "quantidade = ?, " +
+                "dataDoPedido = ?, " +
+                "precoTotalPedido = ? " +
+                "WHERE idRegistroPedido = ?";
 
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, obj.getCodBarras().getCodigoApenasNumeros());
+            stmt.setString(2, obj.getCpnjFornecedor().getCnpjApenasNumeros());
+            stmt.setInt(3, obj.getQuantidade());
 
+            if (obj.getDataPedido() != null) {
+                stmt.setDate(4, Date.valueOf(obj.getDataPedido()));
+            } else {
+                stmt.setNull(4, java.sql.Types.DATE);
+            }
+
+            stmt.setBigDecimal(5, obj.getPreco());
+            stmt.setLong(6, obj.getIdPedido());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
 
     public void excluir(long idRegistroPedido) {
         this.conn.conectar();
