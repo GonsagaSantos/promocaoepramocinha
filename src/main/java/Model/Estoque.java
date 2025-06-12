@@ -6,7 +6,7 @@ import Enum.NivelEstoque;
 import Services.*;
 
 public class Estoque {
-    private Long idEstoque;
+    private long idEstoque;
     private CodigoDeBarras codBarras;
     private CNPJ cnpjFornecedor;
     private BigDecimal precoVenda;
@@ -17,7 +17,7 @@ public class Estoque {
     private boolean baixoEstoque;
 
 
-    public Estoque(Long idEstoque, CodigoDeBarras codBarras, CNPJ cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
+    public Estoque(long idEstoque, CodigoDeBarras codBarras, CNPJ cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
         this.idEstoque = idEstoque;
         this.codBarras = codBarras;
         this.cnpjFornecedor = cnpjFornecedor;
@@ -32,7 +32,7 @@ public class Estoque {
     public Estoque() {
     }
 
-    public Long getIdEstoque() {
+    public long getIdEstoque() {
         return idEstoque;
     }
 
@@ -69,7 +69,7 @@ public class Estoque {
     }
 
 
-    public void setIdEstoque(Long idEstoque) {
+    public void setIdEstoque(long idEstoque) {
         this.idEstoque = idEstoque;
     }
 

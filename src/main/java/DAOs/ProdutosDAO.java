@@ -27,13 +27,12 @@ public class ProdutosDAO {
         }
     }
 
-    public Produto consultar(String codBarras) {
+    public Produto consultar() {
         this.conn.conectar();
-        java.lang.String query = "SELECT * FROM produtos_cadastrados WHERE codigoDeBarras = ?";
+        java.lang.String query = "SELECT * FROM produtos_cadastrados";
 
         Produto obj = null;
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setString(1, codBarras);
             ResultSet retorno = stmt.executeQuery();
 
             if (retorno.next()) {
@@ -50,41 +49,5 @@ public class ProdutosDAO {
             this.conn.desconectar();
         }
         return obj;
-    }
-
-    public void alterar(Produto obj) {
-        this.conn.conectar();
-        String query = "UPDATE produtos_cadastrados SET " +
-                "nome = ?, " +
-                "categoria = ?, " +
-                "marca = ? " +
-                "WHERE codigoDeBarras = ?";
-
-        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setString(1, obj.getNome());
-            stmt.setString(2, obj.getCategoria());
-            stmt.setString(3, obj.getMarca());
-            stmt.setString(4, obj.getCodBarras().getCodigoApenasNumeros());
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            this.conn.desconectar();
-        }
-    }
-
-    public void excluir(String codigoDeBarras) {
-        this.conn.conectar();
-        String query = "DELETE FROM produtos_cadastrados WHERE codigoDeBarras = ?";
-
-        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setString(1, codigoDeBarras);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            this.conn.desconectar();
-        }
     }
 }

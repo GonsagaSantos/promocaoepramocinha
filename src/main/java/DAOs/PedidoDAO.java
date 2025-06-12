@@ -50,7 +50,7 @@ public class PedidoDAO {
             ResultSet retorno = stmt.executeQuery();
 
             if (retorno.next()) {
-                Long idRegistroPedido = retorno.getLong("idRegistroPedido");
+                long idRegistroPedido = retorno.getLong("idRegistroPedido");
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
                 CNPJ cnpjFornecedorObj = new CNPJ(retorno.getString("cnpjFornecedor"));
                 int quantidade = retorno.getInt("quantidade");

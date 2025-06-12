@@ -8,11 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 
-public class EstoqueDAO {
-    private final ConexaoSQLite conn = new ConexaoSQLite();
+public interface EstoqueDAO {
+    final ConexaoSQLite conn = new ConexaoSQLite();
 
-    public void inserir(Estoque obj) {
-        this.conn.conectar();
+    public static void inserir(Estoque obj) {
+        conn.conectar();
         String query = "INSERT INTO estoque(" +
                 "idEstoque," +
                 "codigoDeBarras," +
@@ -25,7 +25,7 @@ public class EstoqueDAO {
                 "baixoEstoque)" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
+        try(PreparedStatement stmt = conn.preparedStatement(query)) {
             stmt.setLong(1, obj.getIdEstoque());
             stmt.setString(2, obj.getCodBarras().getCodigoApenasNumeros());
             stmt.setString(3, obj.getCnpjFornecedor().getCnpjApenasNumeros());
@@ -46,16 +46,16 @@ public class EstoqueDAO {
         } catch (SQLException err) {
             err.printStackTrace();
         } finally {
-            this.conn.desconectar();
+            conn.desconectar();
         }
     }
 
-    public Estoque consultar(Long idEstoque) {
-        this.conn.conectar();
+    static Estoque consultar(Long idEstoque) {
+        conn.conectar();
         String query = "SELECT * FROM estoque WHERE idEstoque = ?";
 
         Estoque obj = null;
-        try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
+        try(PreparedStatement stmt = conn.preparedStatement(query)) {
             stmt.setLong(1, idEstoque);
             ResultSet retorno = stmt.executeQuery();
 
@@ -87,7 +87,7 @@ public class EstoqueDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            this.conn.desconectar();
+            conn.desconectar();
         }
         return obj;
     }

@@ -5,7 +5,7 @@ import java.sql.*;
 public class ConexaoSQLite {
     private Connection conexao;
 
-    public Boolean conectar() {
+    public boolean conectar() {
         try {
             this.conexao = DriverManager.getConnection(
                     "jdbc:sqlite:.\\database\\database"
@@ -19,7 +19,7 @@ public class ConexaoSQLite {
         return true;
     }
 
-    public Boolean desconectar() {
+    public boolean desconectar() {
         try {
             if(!this.conexao.isClosed()) {
                 this.conexao.close();

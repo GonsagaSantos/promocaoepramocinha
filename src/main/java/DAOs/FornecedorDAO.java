@@ -59,40 +59,4 @@ public class FornecedorDAO {
         }
         return obj;
     }
-
-    public void alterar(Fornecedor obj) {
-        this.conn.conectar();
-        String query = "UPDATE fornecedor SET " +
-                "nome = ?, " +
-                "endereco = ?, " +
-                "informacoesDeContato = ? " +
-                "WHERE cnpj = ?";
-
-        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setString(1, obj.getNome());
-            stmt.setString(2, obj.getEndereco());
-            stmt.setString(3, obj.getContato());
-            stmt.setString(4, obj.getCnpj().getCnpjApenasNumeros());
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            this.conn.desconectar();
-        }
-    }
-
-    public void excluir(String cnpjFornecedor) {
-        this.conn.conectar();
-        String query = "DELETE FROM Fornecedor WHERE cnpj = ?";
-
-        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setString(1, cnpjFornecedor);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            this.conn.desconectar();
-        }
-    }
 }

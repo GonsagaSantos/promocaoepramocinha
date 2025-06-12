@@ -52,7 +52,7 @@ public class VendasDAO {
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
-                Long idVenda = resultSet.getLong("idVenda");
+                long idVenda = resultSet.getLong("idVenda");
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(resultSet.getString("codigoDeBarrasNotaFiscal"));
                 FormaPagamento formaDePagamento = FormaPagamento.valueOf(resultSet.getString("formaDePagamento"));
                 BigDecimal precoTotalVenda = resultSet.getBigDecimal("precoTotalVenda");
