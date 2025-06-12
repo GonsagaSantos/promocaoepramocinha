@@ -15,7 +15,7 @@ public class PedidoDAO {
 
     public void inserir(Pedido obj) {
         this.conn.conectar();
-        String query = "INSERT INTO pedido (" +
+        String query = "INSERT INTO registroPedidos (" +
                 "idRegistroPedido," +
                 "codigoDeBarras," +
                 "cnpjFornecedor," +
@@ -42,7 +42,7 @@ public class PedidoDAO {
 
     public Pedido consultar(Long id) {
         this.conn.conectar();
-        String query = "SELECT * FROM estoque WHERE idRegistroPedido = ?";
+        String query = "SELECT * FROM registroPedidos WHERE idRegistroPedido = ?";
         Pedido obj = null;
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
@@ -77,7 +77,7 @@ public class PedidoDAO {
 
     public void alterar(Pedido obj) {
         this.conn.conectar();
-        String query = "UPDATE pedido SET " +
+        String query = "UPDATE registroPedidos SET " +
                 "codigoDeBarras = ?, " +
                 "cnpjFornecedor = ?, " +
                 "quantidade = ?, " +
@@ -119,5 +119,73 @@ public class PedidoDAO {
         } finally {
             this.conn.desconectar();
         }
+    }
+
+    public Pedido consultarPedidoPorCnpjFornecedor(String cnpjNumeros) {
+        this.conn.conectar();
+        String query = "SELECT * FROM registroPedidos WHERE cnpjFornecedor = ? LIMIT 1"; // Adicionado LIMIT 1
+        Pedido pedido = null;
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, cnpjNumeros);
+            ResultSet retorno = stmt.executeQuery();
+
+            if (retorno.next()) { // Usa if em vez de while, já que esperamos apenas um
+                Long idRegistroPedido = retorno.getLong("idRegistroPedido");
+                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
+                CNPJ cnpjFornecedorObj = new CNPJ(retorno.getString("cnpjFornecedor"));
+                int quantidade = retorno.getInt("quantidade");
+                Date sqlDate = retorno.getDate("dataDoPedido");
+
+                LocalDate dataPedido;
+                if (sqlDate != null) {
+                    dataPedido = sqlDate.toLocalDate();
+                } else {
+                    dataPedido = null;
+                }
+
+                BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
+                pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorObj, quantidade, dataPedido, preco);
+            }
+        } catch (SQLException | IllegalArgumentException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+        return pedido;
+    }
+
+    public Pedido consultarPedidoPorData(LocalDate data) {
+        this.conn.conectar();
+        String query = "SELECT * FROM registroPedidos WHERE dataDoPedido = ? LIMIT 1"; // Adicionado LIMIT 1
+        Pedido pedido = null;
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setDate(1, Date.valueOf(data));
+            ResultSet retorno = stmt.executeQuery();
+
+            if (retorno.next()) { // Usa if em vez de while
+                Long idRegistroPedido = retorno.getLong("idRegistroPedido");
+                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
+                CNPJ cnpjFornecedorObj = new CNPJ(retorno.getString("cnpjFornecedor"));
+                int quantidade = retorno.getInt("quantidade");
+                Date sqlDate = retorno.getDate("dataDoPedido");
+
+                LocalDate dataPedido;
+                if (sqlDate != null) {
+                    dataPedido = sqlDate.toLocalDate();
+                } else {
+                    dataPedido = null;
+                }
+
+                BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
+                pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorObj, quantidade, dataPedido, preco);
+            }
+        } catch (SQLException | IllegalArgumentException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+        return pedido;
     }
 }
