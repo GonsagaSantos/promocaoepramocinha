@@ -9,21 +9,21 @@ import java.sql.SQLException;
 public class ProdutosDAO {
     private final ConexaoSQLite conn = new ConexaoSQLite();
 
-        public void inserir(Produto obj) {
-            this.conn.conectar();
-            String query = "INSERT INTO produtos_cadastrados(codigoDeBarras, nome, categoria, marca) VALUES(?, ?, ?, ?)";
+    public void inserir(Produto obj) {
+        this.conn.conectar();
+        String query = "INSERT INTO produtos_cadastrados(codigoDeBarras, nome, categoria, marca) VALUES(?, ?, ?, ?)";
 
-            try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
-                stmt.setString(1, obj.getCodBarras().getCodigoFormatado());
-                stmt.setString(2, obj.getNome());
-                stmt.setString(3, obj.getCategoria());
-                stmt.setString(4, obj.getMarca());
+        try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, obj.getCodBarras().getCodigoFormatado());
+            stmt.setString(2, obj.getNome());
+            stmt.setString(3, obj.getCategoria());
+            stmt.setString(4, obj.getMarca());
 
-                stmt.executeUpdate();
-            } catch (SQLException err) {
-                err.printStackTrace();
-            } finally {
-                this.conn.desconectar();
+            stmt.executeUpdate();
+        } catch (SQLException err) {
+            err.printStackTrace();
+        } finally {
+            this.conn.desconectar();
         }
     }
 
@@ -37,14 +37,12 @@ public class ProdutosDAO {
 
             if (retorno.next()) {
                 obj = new Produto();
-                String codigoDeBarrasString = retorno.getString("codigoDeBarras");
-                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(codigoDeBarrasString);
+                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
                 obj.setCodBarras(codigoDeBarrasObj);
                 obj.setNome(retorno.getString("nome"));
                 obj.setCategoria(retorno.getString("categoria"));
                 obj.setMarca(retorno.getString("marca"));
             }
-
         } catch (SQLException err) {
             System.out.println(err.getMessage());
         } finally {

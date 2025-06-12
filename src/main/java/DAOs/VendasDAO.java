@@ -5,10 +5,7 @@ import Services.*;
 import Enum.*;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 
 public class VendasDAO {
@@ -26,6 +23,7 @@ public class VendasDAO {
                 "dataVenda" +
                 "cpfCliente)" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setLong(1, obj.getIdVenda());
             stmt.setString(2, obj.getCodBarrasNF().getCodigoApenasNumeros());
@@ -51,19 +49,17 @@ public class VendasDAO {
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setLong(1, id);
-            ResultSet rs = stmt.executeQuery();
+            ResultSet resultSet = stmt.executeQuery();
 
-            if (rs.next()) {
-                Long idVenda = rs.getLong("idVenda");
-                String codBarrasNF = rs.getString("codigoDeBarrasNotaFiscal");
-                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(codBarrasNF);
-                FormaPagamento formaDePagamento = FormaPagamento.valueOf(rs.getString("formaDePagamento"));
-                BigDecimal precoTotalVenda = rs.getBigDecimal("precoTotalVenda");
-                BigDecimal valorRecebido = rs.getBigDecimal("precoPagoPeloCliente");
-                BigDecimal valorTroco = rs.getBigDecimal("troco");
-                LocalDate dataVenda = rs.getDate("dataVenda").toLocalDate();
-                String cpfCliente = rs.getString("cpfCliente");
-                CPF cpfObj = new CPF(cpfCliente);
+            if (resultSet.next()) {
+                Long idVenda = resultSet.getLong("idVenda");
+                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(resultSet.getString("codigoDeBarrasNotaFiscal"));
+                FormaPagamento formaDePagamento = FormaPagamento.valueOf(resultSet.getString("formaDePagamento"));
+                BigDecimal precoTotalVenda = resultSet.getBigDecimal("precoTotalVenda");
+                BigDecimal valorRecebido = resultSet.getBigDecimal("precoPagoPeloCliente");
+                BigDecimal valorTroco = resultSet.getBigDecimal("troco");
+                LocalDate dataVenda = resultSet.getDate("dataVenda").toLocalDate();
+                CPF cpfObj = new CPF(resultSet.getString("cpfCliente"));
 
                 obj = new Vendas(idVenda, codigoDeBarrasObj, formaDePagamento, precoTotalVenda, valorRecebido, valorTroco, dataVenda, cpfObj);
             }

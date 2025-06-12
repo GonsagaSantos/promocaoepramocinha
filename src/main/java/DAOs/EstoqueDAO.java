@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Date;
 
 public class EstoqueDAO {
-
     private final ConexaoSQLite conn = new ConexaoSQLite();
 
     public void inserir(Estoque obj) {
@@ -63,28 +62,30 @@ public class EstoqueDAO {
             if (retorno.next()) {
                 obj = new Estoque();
                 obj.setIdEstoque(retorno.getLong("idEstoque"));
-                String codigoDeBarrasString = retorno.getString("codigoDeBarras");
-                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(codigoDeBarrasString);
+
+                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
                 obj.setCodBarras(codigoDeBarrasObj);
-                String cnpjFornecedorString = retorno.getString("cnpjFornecedor");
-                CNPJ cnpjFornecedor = new CNPJ(cnpjFornecedorString);
+
+                CNPJ cnpjFornecedor = new CNPJ(retorno.getString("cnpjFornecedor"));
                 obj.setCnpjFornecedor(cnpjFornecedor);
+
                 obj.setPrecoVenda(retorno.getBigDecimal("precoVenda"));
                 obj.setPrecoCompra(retorno.getBigDecimal("precoCompra"));
                 obj.setQuantidade(retorno.getInt("quantidade"));
                 Date sqlDate = retorno.getDate("dataDeValidade");
+
                 if (sqlDate != null) {
                     obj.setData_validade(sqlDate.toLocalDate());
                 }
+
                 String statusEstoqueStr = retorno.getString("status_estoque");
                 if (statusEstoqueStr != null) {
                     obj.setStatusEstoque(NivelEstoque.valueOf(statusEstoqueStr));
                 }
                 obj.setBaixoEstoque(retorno.getBoolean("baixoEstoque"));
             }
-
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         } finally {
             this.conn.desconectar();
         }

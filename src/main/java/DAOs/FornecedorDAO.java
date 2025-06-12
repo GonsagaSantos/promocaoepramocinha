@@ -2,9 +2,6 @@ package DAOs;
 
 import Model.Fornecedor;
 import Services.CNPJ;
-import Services.CodigoDeBarras;
-
-import javax.xml.transform.Result;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,24 +31,29 @@ public class FornecedorDAO {
         }
     }
 
-    public Fornecedor consultar() {
+    public Fornecedor consultar(String cnpj) {
         this.conn.conectar();
-        String query = "SELECT * FROM fornecedor";
+        String query = "SELECT * FROM fornecedor WHERE cnpj = ?";
         Fornecedor obj = null;
+
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, cnpj);
             ResultSet resultSet = stmt.executeQuery();
 
             if (resultSet.next()) {
                 obj = new Fornecedor();
-                String cnpjString = resultSet.getString("cnpj");
-                CNPJ cnpjObj = new CNPJ(cnpjString);
+
+                CNPJ cnpjObj = new CNPJ(resultSet.getString("cnpj"));
                 obj.setCnpj(cnpjObj);
+
                 obj.setNome(resultSet.getString("nome"));
                 obj.setEndereco(resultSet.getString("endereco"));
                 obj.setContato(resultSet.getString("informacoesDeContato"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            System.err.println("Erro ao criar objeto CNPJ: " + e.getMessage());
         } finally {
             this.conn.desconectar();
         }

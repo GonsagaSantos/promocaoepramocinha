@@ -39,6 +39,7 @@ public class PedidoDAO {
             this.conn.desconectar();
         }
     }
+
     public Pedido consultar(Long id) {
         this.conn.conectar();
         String query = "SELECT * FROM estoque WHERE idRegistroPedido = ?";
@@ -50,15 +51,18 @@ public class PedidoDAO {
 
             if (retorno.next()) {
                 Long idRegistroPedido = retorno.getLong("idRegistroPedido");
-                String codigoDeBarrasString = retorno.getString("codigoDeBarras");
-                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(codigoDeBarrasString);
-                String cnpjFornecedorString = retorno.getString("cnpjFornecedor");
-                CNPJ cnpjFornecedorObj = new CNPJ(cnpjFornecedorString);
+                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
+                CNPJ cnpjFornecedorObj = new CNPJ(retorno.getString("cnpjFornecedor"));
                 int quantidade = retorno.getInt("quantidade");
                 Date sqlDate = retorno.getDate("dataDoPedido");
+
                 LocalDate dataPedido;
-                if (sqlDate != null) { dataPedido = sqlDate.toLocalDate(); }
-                else { dataPedido = null; }
+                if (sqlDate != null) {
+                    dataPedido = sqlDate.toLocalDate();
+                } else {
+                    dataPedido = null;
+                }
+
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
 
                 obj = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorObj, quantidade, dataPedido, preco);

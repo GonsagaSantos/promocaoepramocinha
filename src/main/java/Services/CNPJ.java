@@ -36,9 +36,7 @@ public class CNPJ {
         for (int i = tamanho - 1; i >= 0; i--) {
             soma += digitosCnpj[i] * pesoAtual;
             pesoAtual++;
-            if (pesoAtual > 9) {
-                pesoAtual = 2;
-            }
+            if (pesoAtual > 9) { pesoAtual = 2; }
         }
         int resto = soma % 11;
         return (resto < 2) ? 0 : (11 - resto);

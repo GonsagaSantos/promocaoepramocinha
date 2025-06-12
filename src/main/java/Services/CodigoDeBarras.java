@@ -30,11 +30,8 @@ public class CodigoDeBarras {
     private int calcularDigitoVerificador(int[] digitos) {
         int soma = 0;
         for (int i = 0; i < 12; i++) {
-            if ((i + 1) % 2 == 0) {
-                soma += digitos[i] * 3;
-            } else {
-                soma += digitos[i] * 1;
-            }
+            if ((i + 1) % 2 == 0) { soma += digitos[i] * 3; }
+            else { soma += digitos[i] * 1; }
         }
         int resto = soma % 10;
         return (resto == 0) ? 0 : (10 - resto);

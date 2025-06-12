@@ -41,8 +41,8 @@ public class FuncionarioDAO {
                 if (retorno.next()) {
                     obj = new Funcionario();
 
-                    String cpfString = retorno.getString("cpf");
-                    obj.setCpf(CPF.of(cpfString));
+                    CPF cpf = new CPF(retorno.getString("cpf"));
+                    obj.setCpf(cpf);
 
                     obj.setNome(retorno.getString("nome"));
 
@@ -55,8 +55,6 @@ public class FuncionarioDAO {
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Erro de conversão: " + e.getMessage());
         } finally {
             this.conn.desconectar();
         }
