@@ -34,7 +34,6 @@ public class EstoqueDAO {
             stmt.setBigDecimal(5, obj.getPrecoCompra());
             stmt.setInt(6, obj.getQuantidade());
 
-            // Conversão de LocalDate para java.sql.Date
             if (obj.getData_validade() != null) {
                 stmt.setDate(7, Date.valueOf(obj.getData_validade()));
             } else {

@@ -15,6 +15,9 @@ public class Fornecedor {
         setContato(contato);
     }
 
+    public Fornecedor() {
+    }
+
     public CNPJ getCnpj() {
         return cnpj;
     }
