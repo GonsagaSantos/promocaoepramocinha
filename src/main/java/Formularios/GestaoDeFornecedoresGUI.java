@@ -3,7 +3,6 @@ package Formularios;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
 
 
 public class GestaoDeFornecedoresGUI extends JFrame {
@@ -21,7 +20,7 @@ public class GestaoDeFornecedoresGUI extends JFrame {
         buttonCadastrarFornecedores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                new CadastrarFornecedorGUI().setVisible(true);
             }
         });
         buttonRegistrarPedido.addActionListener(new ActionListener() {
