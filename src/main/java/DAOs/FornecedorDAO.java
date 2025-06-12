@@ -59,4 +59,20 @@ public class FornecedorDAO {
         }
         return obj;
     }
+
+
+
+    public void excluir(String cnpjFornecedor) {
+        this.conn.conectar();
+        String query = "DELETE FROM Fornecedor WHERE cnpj = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, cnpjFornecedor);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
 }

@@ -74,4 +74,21 @@ public class PedidoDAO {
         }
         return obj;
     }
+
+
+
+
+    public void excluir(long idRegistroPedido) {
+        this.conn.conectar();
+        String query = "DELETE FROM registroPedidos WHERE idRegistroPedido = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setLong(1, idRegistroPedido);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
 }

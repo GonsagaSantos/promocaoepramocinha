@@ -27,12 +27,13 @@ public class ProdutosDAO {
         }
     }
 
-    public Produto consultar() {
+    public Produto consultar(String codBarras) {
         this.conn.conectar();
-        java.lang.String query = "SELECT * FROM produtos_cadastrados";
+        java.lang.String query = "SELECT * FROM produtos_cadastrados WHERE codigoDeBarras = ?";
 
         Produto obj = null;
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, codBarras);
             ResultSet retorno = stmt.executeQuery();
 
             if (retorno.next()) {
@@ -49,5 +50,21 @@ public class ProdutosDAO {
             this.conn.desconectar();
         }
         return obj;
+    }
+
+
+
+    public void excluir(String codigoDeBarras) {
+        this.conn.conectar();
+        String query = "DELETE FROM produtos_cadastrados WHERE codigoDeBarras = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, codigoDeBarras);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
     }
 }

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Vendas {
-    private Long idVenda;
+    private long idVenda;
     private CodigoDeBarras codBarrasNF;
     private FormaPagamento forma_pagamento;
     private BigDecimal precoTotalVenda;
@@ -16,7 +16,7 @@ public class Vendas {
     private LocalDate dataVenda;
     private CPF cpf_cliente;
 
-    public Vendas(Long idVenda, CodigoDeBarras codBarrasNF, FormaPagamento forma_pagamento, BigDecimal precoTotalVenda, BigDecimal valorRecebido, BigDecimal valorTroco, LocalDate dataVenda, CPF cpf_cliente) {
+    public Vendas(long idVenda, CodigoDeBarras codBarrasNF, FormaPagamento forma_pagamento, BigDecimal precoTotalVenda, BigDecimal valorRecebido, BigDecimal valorTroco, LocalDate dataVenda, CPF cpf_cliente) {
         setIdVenda(idVenda);
         setCodBarrasNF(codBarrasNF);
         setForma_pagamento(forma_pagamento);
@@ -27,11 +27,11 @@ public class Vendas {
         setCpf_cliente(cpf_cliente);
     }
 
-    public Long getIdVenda() {
+    public long getIdVenda() {
         return idVenda;
     }
 
-    public void setIdVenda(Long idVenda) {
+    public void setIdVenda(long idVenda) {
         this.idVenda = idVenda;
     }
 

@@ -60,4 +60,20 @@ public class FuncionarioDAO {
         }
         return obj;
     }
+
+
+
+    public void excluir(String cpfFuncionario) {
+        this.conn.conectar();
+        String query = "DELETE FROM funcionarios WHERE cpf = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, cpfFuncionario);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
 }

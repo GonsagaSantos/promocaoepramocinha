@@ -22,7 +22,7 @@ public class DetalhesVendaDAO {
 
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setLong(1, obj.getIdDetalhes());
-            stmt.setLong(2, obj.getIdVenda().getIdVenda());
+            stmt.setLong(2, obj.getIdVenda());
             stmt.setString(3, obj.getCodigoDeBarrasProduto().getCodigoApenasNumeros());
             stmt.setString(4, obj.getNomeItem());
             stmt.setInt(5, obj.getQuantidade());
@@ -37,7 +37,7 @@ public class DetalhesVendaDAO {
         }
     }
 
-    public DetalhesVenda consultar(Long idDetalhesVenda) {
+    public DetalhesVenda consultar(long idDetalhesVenda) {
         this.conn.conectar();
         String query = "SELECT * FROM detalhes_venda WHERE idDetalhesVenda = ?";
 
@@ -47,18 +47,19 @@ public class DetalhesVendaDAO {
             ResultSet retorno = stmt.executeQuery();
 
             if (retorno.next()) {
-                Long id = retorno.getLong("idDetalhesVenda");
-                Long idVendaFk = retorno.getLong("idVendas");
+                long id = retorno.getLong("idDetalhesVenda");
+                long idVendaFk = retorno.getLong("idVendas");
                 String codigoDeBarrasProdutoStr = retorno.getString("codigoDeBarrasProduto");
                 String nomeItem = retorno.getString("nomeItem");
                 int quantidade = retorno.getInt("quantidade");
                 BigDecimal preco = retorno.getBigDecimal("preco");
                 BigDecimal subtotal = retorno.getBigDecimal("subtotal");
 
-                Vendas vendaPlaceholder = new Vendas(idVendaFk, null, null, null, null, null, null, null);
+                Vendas vendaPlaceholder = new Vendas(idVendaFk, null, null,
+                        null, null, null, null, null);
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(codigoDeBarrasProdutoStr);
 
-                obj = new DetalhesVenda(id, vendaPlaceholder, codigoDeBarrasObj, nomeItem, quantidade, preco, subtotal);
+                obj = new DetalhesVenda(id, vendaPlaceholder.getIdVenda(), codigoDeBarrasObj, nomeItem, quantidade, preco, subtotal);
             }
 
         } catch (SQLException e) {
@@ -67,5 +68,47 @@ public class DetalhesVendaDAO {
             this.conn.desconectar();
         }
         return obj;
+    }
+
+    public void alterar(DetalhesVenda obj) {
+        this.conn.conectar();
+        String query = "UPDATE detalhesVenda SET" +
+                "idVenda = ?," +
+                "codigoDeBarrasProduto = ?," +
+                "nomeDoItem = ?," +
+                "quantidade = ?," +
+                "precoDoITEM = ?," +
+                "subtotal = ? " +
+                "where idDetalhesVenda = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setLong(1, obj.getIdVenda());
+            stmt.setString(2, obj.getCodigoDeBarrasProduto().getCodigoApenasNumeros());
+            stmt.setString(3, obj.getNomeItem());
+            stmt.setInt(4, obj.getQuantidade());
+            stmt.setBigDecimal(5, obj.getPreco());
+            stmt.setBigDecimal(6, obj.getSubtotal());
+            stmt.setLong(7, obj.getIdDetalhes());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
+
+    public void excluir(long idDetalhesVenda) {
+        this.conn.conectar();
+        String query = "DELETE FROM detalhes_venda WHERE idDetalhesVenda = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setLong(1, idDetalhesVenda);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
     }
 }

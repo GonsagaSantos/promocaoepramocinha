@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 import Services.*;
 
 public class DetalhesVenda {
-    private Long idDetalhesVenda;
-    private Vendas idVendas;
+    private long idDetalhesVenda;
+    private long idVendas;
     private CodigoDeBarras produtoProduto;
     private String nomeItem;
     private int quantidade;
     private BigDecimal preco;
     private BigDecimal subtotal;
 
-    public DetalhesVenda(Long idDetalhes, Vendas idVendas, CodigoDeBarras produtoProduto, String nomeItem, int quantidade, BigDecimal preco, BigDecimal subtotal) {
+    public DetalhesVenda(long idDetalhes, long idVendas, CodigoDeBarras produtoProduto, String nomeItem, int quantidade, BigDecimal preco, BigDecimal subtotal) {
         setIdDetalhes(idDetalhes);
         setIdVenda(idVendas);
         setCodigoDeBarrasProduto(produtoProduto);
@@ -22,19 +22,19 @@ public class DetalhesVenda {
         setSubtotal(subtotal);
     }
 
-    public Long getIdDetalhes() {
+    public long getIdDetalhes() {
         return idDetalhesVenda;
     }
 
-    public void setIdDetalhes(Long idDetalhes) {
+    public void setIdDetalhes(long idDetalhes) {
         this.idDetalhesVenda = idDetalhes;
     }
 
-    public Vendas getIdVenda() {
+    public long getIdVenda() {
         return idVendas;
     }
 
-    public void setIdVenda(Vendas idVendas) {
+    public void setIdVenda(long idVendas) {
         this.idVendas = idVendas;
     }
 

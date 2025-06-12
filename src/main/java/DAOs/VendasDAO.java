@@ -1,6 +1,6 @@
 package DAOs;
 
-import Model.Vendas;
+import Model.*;
 import Services.*;
 import Enum.*;
 
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class VendasDAO {
     private final ConexaoSQLite conn = new ConexaoSQLite();
 
-    public void inserir(Vendas obj) {
+    public void inserirV(Vendas obj) {
         this.conn.conectar();
         String query = "INSERT INTO vendas(" +
                 "idVenda," +
@@ -42,7 +42,7 @@ public class VendasDAO {
         }
     }
 
-    public Vendas consultar(Long id) {
+    public Vendas consultar(long id) {
         this.conn.conectar();
         String query = "SELECT * FROM vendas WHERE idVenda = ?";
         Vendas obj = null;
@@ -69,5 +69,21 @@ public class VendasDAO {
             this.conn.desconectar();
         }
         return obj;
+    }
+
+
+
+    public void excluir(long idVenda) {
+        this.conn.conectar();
+        String query = "DELETE FROM vendas WHERE idVenda = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setLong(1, idVenda);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
     }
 }
