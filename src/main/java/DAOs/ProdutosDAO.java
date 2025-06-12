@@ -14,7 +14,7 @@ public class ProdutosDAO {
         String query = "INSERT INTO produtos_cadastrados(codigoDeBarras, nome, categoria, marca) VALUES(?, ?, ?, ?)";
 
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setString(1, obj.getCodBarras().getCodigoFormatado());
+            stmt.setString(1, obj.getCodBarras().getCodigoApenasNumeros());
             stmt.setString(2, obj.getNome());
             stmt.setString(3, obj.getCategoria());
             stmt.setString(4, obj.getMarca());

@@ -14,10 +14,10 @@ public class Estoque {
     private int quantidade;
     private LocalDate data_validade;
     private NivelEstoque statusEstoque;
-    private boolean baixoEstoque;
+    private boolean alertaEstoqueBaixo;
 
 
-    public Estoque(Long idEstoque, CodigoDeBarras codBarras, String cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
+    public Estoque(Long idEstoque, CodigoDeBarras codBarras, String cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean alertaEstoqueBaixo) {
         this.idEstoque = idEstoque;
         this.codBarras = codBarras;
         this.cnpjFornecedor = cnpjFornecedor;
@@ -26,11 +26,12 @@ public class Estoque {
         this.quantidade = quantidade;
         this.data_validade = data_validade;
         this.statusEstoque = statusEstoque;
-        this.baixoEstoque = baixoEstoque;
+        this.alertaEstoqueBaixo = alertaEstoqueBaixo;
     }
 
     public Estoque() {
     }
+
 
     public Long getIdEstoque() {
         return idEstoque;
@@ -65,7 +66,7 @@ public class Estoque {
     }
 
     public boolean isBaixoEstoque() {
-        return baixoEstoque;
+        return alertaEstoqueBaixo;
     }
 
 
@@ -101,7 +102,7 @@ public class Estoque {
         this.statusEstoque = statusEstoque;
     }
 
-    public void setBaixoEstoque(boolean baixoEstoque) {
-        this.baixoEstoque = baixoEstoque;
+    public void setBaixoEstoque(boolean alertaEstoqueBaixo) {
+        this.alertaEstoqueBaixo = alertaEstoqueBaixo;
     }
 }

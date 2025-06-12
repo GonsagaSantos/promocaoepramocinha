@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class VendasDAO {
     private final ConexaoSQLite conn = new ConexaoSQLite();
 
-    public void inserirV(Vendas obj) {
+    public void inserir(Vendas obj) {
         this.conn.conectar();
         String query = "INSERT INTO vendas(" +
                 "idVenda," +
@@ -20,7 +20,7 @@ public class VendasDAO {
                 "precoTotalVenda," +
                 "precoPagoPeloCliente," +
                 "troco," +
-                "dataVenda" +
+                "dataVenda," +
                 "cpfCliente)" +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 

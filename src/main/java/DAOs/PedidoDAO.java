@@ -56,10 +56,10 @@ public class PedidoDAO {
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
                 String cnpjFornecedor = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
-                String dataDoPedidoStr = retorno.getString("dataDoPedido");
+                Date sqlDate = retorno.getDate("dataDoPedido");
                 LocalDate dataPedido = null;
-                if (dataDoPedidoStr != null && !dataDoPedidoStr.isEmpty()) {
-                    dataPedido = LocalDate.parse(dataDoPedidoStr);
+                if (sqlDate != null) {
+                    dataPedido = sqlDate.toLocalDate();
                 }
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
 
@@ -133,10 +133,10 @@ public class PedidoDAO {
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
                 String cnpjFornecedor = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
-                String dataDoPedidoStr = retorno.getString("dataDoPedido");
+                Date sqlDate = retorno.getDate("dataDoPedido");
                 LocalDate dataPedido = null;
-                if (dataDoPedidoStr != null && !dataDoPedidoStr.isEmpty()) {
-                    dataPedido = LocalDate.parse(dataDoPedidoStr);
+                if (sqlDate != null) {
+                    dataPedido = sqlDate.toLocalDate();
                 }
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
                 pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedor, quantidade, dataPedido, preco);
@@ -163,12 +163,11 @@ public class PedidoDAO {
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
                 String cnpjFornecedorStr = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
-                String dataDoPedidoStr = retorno.getString("dataDoPedido");
+                Date sqlDate = retorno.getDate("dataDoPedido");
                 LocalDate dataPedido = null;
-                if (dataDoPedidoStr != null && !dataDoPedidoStr.isEmpty()) {
-                    dataPedido = LocalDate.parse(dataDoPedidoStr);
+                if (sqlDate != null) {
+                    dataPedido = sqlDate.toLocalDate();
                 }
-
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
                 pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorStr, quantidade, dataPedido, preco);
             }
