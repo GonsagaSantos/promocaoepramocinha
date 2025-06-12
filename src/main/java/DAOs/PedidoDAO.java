@@ -15,7 +15,8 @@ public class PedidoDAO {
 
     public void inserir(Pedido obj) {
         this.conn.conectar();
-        String query = "INSERT INTO pedido (" +
+        // CORREÇÃO: Nome da tabela 'registroPedidos'
+        String query = "INSERT INTO registroPedidos (" +
                 "idRegistroPedido," +
                 "codigoDeBarras," +
                 "cnpjFornecedor," +
@@ -29,6 +30,7 @@ public class PedidoDAO {
             stmt.setString(2, obj.getCodBarras().getCodigoApenasNumeros());
             stmt.setString(3, obj.getCpnjFornecedor().getCnpjApenasNumeros());
             stmt.setInt(4, obj.getQuantidade());
+            // CORREÇÃO: Converter LocalDate para java.sql.Date
             stmt.setDate(5, Date.valueOf(obj.getDataPedido()));
             stmt.setBigDecimal(6, obj.getPreco());
 
@@ -40,9 +42,11 @@ public class PedidoDAO {
         }
     }
 
-    public Pedido consultar(Long id) {
+    // CORREÇÃO: Renomeado para refletir consulta por ID do pedido
+    public Pedido consultarPorId(long id) {
         this.conn.conectar();
-        String query = "SELECT * FROM estoque WHERE idRegistroPedido = ?";
+        // CORREÇÃO: Nome da tabela 'registroPedidos'
+        String query = "SELECT * FROM registroPedidos WHERE idRegistroPedido = ?";
         Pedido obj = null;
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
@@ -65,6 +69,7 @@ public class PedidoDAO {
 
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
 
+                // Assegure que a classe Pedido tem este construtor
                 obj = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorObj, quantidade, dataPedido, preco);
             }
         } catch (SQLException e) {
@@ -77,7 +82,8 @@ public class PedidoDAO {
 
     public void alterar(Pedido obj) {
         this.conn.conectar();
-        String query = "UPDATE pedido SET " +
+        // CORREÇÃO: Nome da tabela 'registroPedidos'
+        String query = "UPDATE registroPedidos SET " +
                 "codigoDeBarras = ?, " +
                 "cnpjFornecedor = ?, " +
                 "quantidade = ?, " +
@@ -109,6 +115,7 @@ public class PedidoDAO {
 
     public void excluir(long idRegistroPedido) {
         this.conn.conectar();
+        // CORREÇÃO: Nome da tabela 'registroPedidos'
         String query = "DELETE FROM registroPedidos WHERE idRegistroPedido = ?";
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
