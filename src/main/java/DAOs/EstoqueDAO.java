@@ -91,4 +91,56 @@ public class EstoqueDAO {
         }
         return obj;
     }
+
+    public void alterar(Estoque obj) {
+        this.conn.conectar();
+        String query = "UPDATE estoque SET " +
+                "codigoDeBarras = ?, " +
+                "cnpjFornecedor = ?, " +
+                "precoVenda = ?, " +
+                "precoCompra = ?, " +
+                "quantidade = ?, " +
+                "dataDeValidade = ?, " +
+                "status_estoque = ?, " +
+                "baixoEstoque = ? " +
+                "WHERE idEstoque = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setString(1, obj.getCodBarras().getCodigoApenasNumeros());
+            stmt.setString(2, obj.getCnpjFornecedor().getCnpjApenasNumeros());
+            stmt.setBigDecimal(3, obj.getPrecoVenda());
+            stmt.setBigDecimal(4, obj.getPrecoCompra());
+            stmt.setInt(5, obj.getQuantidade());
+
+            if (obj.getData_validade() != null) {
+                stmt.setDate(6, Date.valueOf(obj.getData_validade()));
+            } else {
+                stmt.setNull(6, java.sql.Types.DATE);
+            }
+
+            stmt.setString(7, obj.getStatusEstoque().name());
+            stmt.setBoolean(8, obj.isBaixoEstoque());
+            stmt.setLong(9, obj.getIdEstoque());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
+
+    public void excluir(Long idEstoque) {
+        this.conn.conectar();
+        String query = "DELETE FROM estoque WHERE idEstoque = ?";
+
+        try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
+            stmt.setLong(1, idEstoque);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.conn.desconectar();
+        }
+    }
 }
