@@ -1,7 +1,7 @@
 package org.example;
 
 import DAOs.*;
-import Model.String;
+import Model.*;
 import Services.*;
 
 public class Main {
@@ -13,15 +13,15 @@ public class Main {
         DAOs.ProdutosDAO produtosDAO = new ProdutosDAO();
         ProdutoService produtoService = new ProdutoService(produtosDAO);
 
-        java.lang.String codBarrasTeste = "2";
-        java.lang.String nomeTeste = "Biscoito Bauduco";
-        java.lang.String categoriaTeste = "Bolachas";
-        java.lang.String marcaTeste = "Bauduco";
+        Services.CodigoDeBarras codBarrasTeste = new Services.CodigoDeBarras("7908278342415");
+        String nomeTeste = "Fanta Uva 2L";
+        String categoriaTeste = "Refrigerantes";
+        String marcaTeste = "Fanta";
 
         System.out.println("\nTentando cadastrar o produto: " + nomeTeste);
 
         try {
-            String produtoCadastrado = produtoService.cadastrar(
+            Produto produtoCadastrado = produtoService.cadastrar(
                     codBarrasTeste,
                     nomeTeste,
                     categoriaTeste,

@@ -1,23 +1,23 @@
 package Model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate; // Usar LocalDate para datas no modelo
-
+import java.time.LocalDate;
 import Enum.NivelEstoque;
+import Services.*;
 
 public class Estoque {
     private Long idEstoque;
-    private String codBarras; // Usar java.lang.String
-    private String cnpjFornecedor; // Usar java.lang.String
+    private CodigoDeBarras codBarras;
+    private CNPJ cnpjFornecedor;
     private BigDecimal precoVenda;
     private BigDecimal precoCompra;
     private int quantidade;
-    private LocalDate data_validade; // Campo como LocalDate
+    private LocalDate data_validade;
     private NivelEstoque statusEstoque;
     private boolean baixoEstoque;
 
 
-    public Estoque(Long idEstoque, String codBarras, String cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
+    public Estoque(Long idEstoque, CodigoDeBarras codBarras, CNPJ cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
         this.idEstoque = idEstoque;
         this.codBarras = codBarras;
         this.cnpjFornecedor = cnpjFornecedor;
@@ -29,7 +29,6 @@ public class Estoque {
         this.baixoEstoque = baixoEstoque;
     }
 
-    // Construtor padrão adicionado, se necessário
     public Estoque() {
     }
 
@@ -37,71 +36,72 @@ public class Estoque {
         return idEstoque;
     }
 
-    public void setIdEstoque(Long idEstoque) {
-        this.idEstoque = idEstoque;
-    }
-
-    public String getCodBarras() { // Retorna java.lang.String
+    public CodigoDeBarras getCodBarras() {
         return codBarras;
     }
 
-    public void setCodBarras(String codBarras) { // Recebe java.lang.String
-        this.codBarras = codBarras;
+    public CNPJ getCnpjFornecedor() {
+        return cnpjFornecedor;
     }
 
     public BigDecimal getPrecoVenda() {
         return precoVenda;
     }
 
-    public void setPrecoVenda(BigDecimal precoVenda) {
-        this.precoVenda = precoVenda;
-    }
-
     public BigDecimal getPrecoCompra() {
         return precoCompra;
-    }
-
-    public void setPrecoCompra(BigDecimal precoCompra) {
-        this.precoCompra = precoCompra;
     }
 
     public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public LocalDate getData_validade() { // Retorna LocalDate
+    public LocalDate getData_validade() {
         return data_validade;
-    }
-
-    public void setData_validade(LocalDate data_validade) { // Recebe LocalDate
-        this.data_validade = data_validade;
     }
 
     public NivelEstoque getStatusEstoque() {
         return statusEstoque;
     }
 
-    public void setStatusEstoque(NivelEstoque statusEstoque) {
-        this.statusEstoque = statusEstoque;
-    }
-
     public boolean isBaixoEstoque() {
         return baixoEstoque;
     }
 
+
+    public void setIdEstoque(Long idEstoque) {
+        this.idEstoque = idEstoque;
+    }
+
+    public void setCodBarras(CodigoDeBarras codBarras) {
+        this.codBarras = codBarras;
+    }
+
+    public void setCnpjFornecedor(CNPJ cnpjFornecedor) {
+        this.cnpjFornecedor = cnpjFornecedor;
+    }
+
+    public void setPrecoVenda(BigDecimal precoVenda) {
+        this.precoVenda = precoVenda;
+    }
+
+    public void setPrecoCompra(BigDecimal precoCompra) {
+        this.precoCompra = precoCompra;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public void setData_validade(LocalDate data_validade) {
+        this.data_validade = data_validade;
+    }
+
+    public void setStatusEstoque(NivelEstoque statusEstoque) {
+        this.statusEstoque = statusEstoque;
+    }
+
     public void setBaixoEstoque(boolean baixoEstoque) {
         this.baixoEstoque = baixoEstoque;
-    }
-
-    public String getCnpjFornecedor() { // Retorna java.lang.String
-        return cnpjFornecedor;
-    }
-
-    public void setCnpjFornecedor(String cnpjFornecedor) { // Recebe java.lang.String
-        this.cnpjFornecedor = cnpjFornecedor;
     }
 }

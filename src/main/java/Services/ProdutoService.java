@@ -1,7 +1,7 @@
 package Services;
 
 import DAOs.ProdutosDAO;
-import Model.String;
+import Model.*;
 
 public class ProdutoService {
 
@@ -11,9 +11,9 @@ public class ProdutoService {
         this.produtoDAO = produtoDAO;
     }
 
-    public String cadastrar(java.lang.String codBarras, java.lang.String nome, java.lang.String categoria, java.lang.String marca) {
+    public Produto cadastrar(CodigoDeBarras codBarras, String nome, String categoria, String marca) {
 
-        String novoProduto = new String();
+        Produto novoProduto = new Produto();
 
         novoProduto.setCodBarras(codBarras);
         novoProduto.setNome(nome);
