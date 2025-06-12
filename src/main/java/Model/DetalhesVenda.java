@@ -1,20 +1,21 @@
 package Model;
 
 import java.math.BigDecimal;
+import Services.*;
 
 public class DetalhesVenda {
     private Long idDetalhesVenda;
     private Vendas idVendas;
-    private String codigoDeBarrasProduto;
-    private java.lang.String nomeItem;
+    private CodigoDeBarras produtoProduto;
+    private String nomeItem;
     private int quantidade;
     private BigDecimal preco;
     private BigDecimal subtotal;
 
-    public DetalhesVenda(Long idDetalhes, Vendas idVendas, String codigoDeBarrasProduto, java.lang.String nomeItem, int quantidade, BigDecimal preco, BigDecimal subtotal) {
+    public DetalhesVenda(Long idDetalhes, Vendas idVendas, CodigoDeBarras produtoProduto, String nomeItem, int quantidade, BigDecimal preco, BigDecimal subtotal) {
         setIdDetalhes(idDetalhes);
         setIdVenda(idVendas);
-        setCodigoDeBarrasProduto(codigoDeBarrasProduto);
+        setCodigoDeBarrasProduto(produtoProduto);
         setNomeItem(nomeItem);
         setQuantidade(quantidade);
         setPreco(preco);
@@ -37,19 +38,19 @@ public class DetalhesVenda {
         this.idVendas = idVendas;
     }
 
-    public String getCodigoDeBarrasProduto() {
-        return codigoDeBarrasProduto;
+    public CodigoDeBarras getCodigoDeBarrasProduto() {
+        return produtoProduto;
     }
 
-    public void setCodigoDeBarrasProduto(String codigoDeBarrasProduto) {
-        this.codigoDeBarrasProduto = codigoDeBarrasProduto;
+    public void setCodigoDeBarrasProduto(CodigoDeBarras produtoProduto) {
+        this.produtoProduto = produtoProduto;
     }
 
-    public java.lang.String getNomeItem() {
+    public String getNomeItem() {
         return nomeItem;
     }
 
-    public void setNomeItem(java.lang.String nomeItem) {
+    public void setNomeItem(String nomeItem) {
         this.nomeItem = nomeItem;
     }
 

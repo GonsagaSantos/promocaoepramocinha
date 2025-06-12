@@ -1,17 +1,18 @@
 package Model;
 
+import Services.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Pedido {
     private Long idPedido;
-    private String codBarras;
-    private Fornecedor cpnjFornecedor;
+    private CodigoDeBarras codBarras;
+    private CNPJ cpnjFornecedor;
     private int quantidade;
     private LocalDate dataPedido;
     private BigDecimal preco;
 
-    public Pedido(Long idPedido, String codBarras, Fornecedor cpnjFornecedor, int quantidade, LocalDate dataPedido, BigDecimal preco) {
+    public Pedido(Long idPedido, CodigoDeBarras codBarras, CNPJ cpnjFornecedor, int quantidade, LocalDate dataPedido, BigDecimal preco) {
         setIdPedido(idPedido);
         setCodBarras(codBarras);
         setCpnjFornecedor(cpnjFornecedor);
@@ -28,19 +29,19 @@ public class Pedido {
         this.idPedido = idPedido;
     }
 
-    public String getCodBarras() {
+    public CodigoDeBarras getCodBarras() {
         return codBarras;
     }
 
-    public void setCodBarras(String codBarras) {
+    public void setCodBarras(CodigoDeBarras codBarras) {
         this.codBarras = codBarras;
     }
 
-    public Fornecedor getCpnjFornecedor() {
+    public CNPJ getCpnjFornecedor() {
         return cpnjFornecedor;
     }
 
-    public void setCpnjFornecedor(Fornecedor cpnjFornecedor) {
+    public void setCpnjFornecedor(CNPJ cpnjFornecedor) {
         this.cpnjFornecedor = cpnjFornecedor;
     }
 

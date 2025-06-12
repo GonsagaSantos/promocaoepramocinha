@@ -8,7 +8,7 @@ public class ConexaoSQLite {
     public Boolean conectar() {
         try {
             this.conexao = DriverManager.getConnection(
-                    "jdbc:sqlite:C:\\Users\\Miguel\\IdeaProjects\\promocaoepramocinha\\database\\database"
+                    "jdbc:sqlite:.\\database\\database"
             );
 
 
