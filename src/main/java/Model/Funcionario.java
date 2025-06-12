@@ -15,6 +15,10 @@ public class Funcionario {
         setPermissao(permissao);
     }
 
+    public Funcionario() {
+
+    }
+
     public String getNome() {
         return nome;
     }

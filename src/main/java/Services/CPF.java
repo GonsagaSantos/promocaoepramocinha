@@ -22,6 +22,10 @@ public class CPF {
         }
     }
 
+    public static CPF of(String cpfNumeros) {
+        return new CPF(cpfNumeros);
+    }
+
     public String getCpfConcatenado() {
         concatCpf(this.cpf);
         String parteUm = this.cpf.substring(0,3);

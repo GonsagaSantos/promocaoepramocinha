@@ -4,7 +4,7 @@ public enum Permissoes {
     VISUALIZACAO,
     BASICA,
     INTERMEDIARIA,
-    AVANÇADA,
+    AVANCADA,
     GERENCIADOR,
-    ADMINISTRADOR_DE_SISTEMA;
+    ADMIN;
 }
