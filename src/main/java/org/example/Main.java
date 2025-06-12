@@ -25,143 +25,89 @@ public class Main {
         // Opcional: Criar tabelas se elas não existirem.
         // new ConexaoSQLite().criarTabelas();
 
-        testarFluxoFornecedorService();
+        // --- TESTE DE CADASTRO E CONSULTA DE PEDIDOS REGISTRADOS ---
+        System.out.println("\n--- Teste: Cadastro e Consulta de Pedidos Registrados ---");
 
-        System.out.println("\n--- Todos os Testes Concluídos. Sistema Pronto ---");
-    }
-
-    private static void testarFluxoFornecedorService() {
-        System.out.println("\n--- Teste Completo: Cadastro de Pedido de Compra e Atualização de Estoque ---");
-
-        ProdutosDAO produtosDAO = new ProdutosDAO();
-        EstoqueDAO estoqueDAO = new EstoqueDAO();
         PedidoDAO pedidoDAO = new PedidoDAO();
 
-        FornecedorService fornecedorService = new FornecedorService(pedidoDAO, produtosDAO, estoqueDAO);
-
+        // Dados para o pedido de teste
+        Long idPedidoTeste = System.currentTimeMillis(); // ID único baseado no tempo
         String codigoBarrasNumeros = GerarCodigoBarras.gerarNovo();
-        CodigoDeBarras codBarrasProdutoTeste = null;
-        CNPJ cnpjFornecedorTeste = null;
-        Long idPedidoTeste = 100001L; // ID fixo para o pedido de teste
+        String cnpjFornecedorNumeros = "11222333000181"; // CNPJ válido para teste
+        int quantidadePedida = 50;
+        BigDecimal precoTotalPedido = new BigDecimal("500.00"); // Preço total do pedido
+
+        CodigoDeBarras codBarrasObj = null;
+        CNPJ cnpjObj = null;
         try {
-            codBarrasProdutoTeste = new CodigoDeBarras(codigoBarrasNumeros);
-            // Passe o CNPJ sem formatação para o construtor
-            cnpjFornecedorTeste = new CNPJ("11222333000181"); // Este CNPJ foi testado e é válido com a sua lógica
+            codBarrasObj = new CodigoDeBarras(codigoBarrasNumeros);
+            cnpjObj = new CNPJ(cnpjFornecedorNumeros);
         } catch (IllegalArgumentException e) {
-            System.err.println("❌ Erro na criação de objetos de valor (Código de Barras/CNPJ): " + e.getMessage());
+            System.err.println("❌ Erro na criação de objetos de valor (Código de Barras/CNPJ) para Pedido: " + e.getMessage());
             e.printStackTrace();
             return;
         }
 
-        int quantidadeDoPedido = 75;
-        BigDecimal precoCompraInicial = new BigDecimal("12.50");
-        int quantidadeEstoqueInicial = 25;
+        Pedido novoPedido = new Pedido();
+        novoPedido.setIdPedido(idPedidoTeste);
+        novoPedido.setCodBarras(codBarrasObj);
+        novoPedido.setCpnjFornecedor(cnpjObj);
+        novoPedido.setQuantidade(quantidadePedida);
+        novoPedido.setDataPedido(LocalDate.now());
+        novoPedido.setPreco(precoTotalPedido);
+
+
+        System.out.println("\nTentando inserir o pedido ID: " + novoPedido.getIdPedido());
 
         try {
-            produtosDAO.excluir(codBarrasProdutoTeste.getCodigoApenasNumeros());
-            Long idEstoqueParaExcluir = getIdEstoquePorCodigoBarras(codBarrasProdutoTeste.getCodigoApenasNumeros());
-            if (idEstoqueParaExcluir != null) {
-                estoqueDAO.excluir(idEstoqueParaExcluir);
-            }
-            pedidoDAO.excluir(idPedidoTeste);
+            // Limpa dados antigos para um teste limpo
+            pedidoDAO.excluir(novoPedido.getIdPedido());
+            Thread.sleep(100);
 
-
-            System.out.println("\n--> Preparando Produto base para teste...");
-            Produto novoProdutoBase = new Produto();
-            novoProdutoBase.setCodBarras(codBarrasProdutoTeste);
-            novoProdutoBase.setNome("Refrigerante Cola " + System.currentTimeMillis());
-            novoProdutoBase.setCategoria("Refrigerantes");
-            novoProdutoBase.setMarca("Marca Teste");
-            produtosDAO.inserir(novoProdutoBase);
-            System.out.println("Produto base inserido: " + novoProdutoBase.getNome() + " | Cód: " + novoProdutoBase.getCodBarras().getCodigoApenasNumeros());
-
-
-            System.out.println("--> Preparando Estoque inicial para o produto teste...");
-            Estoque novoEstoqueInicial = new Estoque();
-            // Para o idEstoque, se for auto-incremento no DB, você pode deixar o DB gerá-lo e não setar aqui,
-            // ou usar um ID fixo para teste como 1L, mas certifique-se que é único.
-            novoEstoqueInicial.setIdEstoque(12345L); // ID fixo para o estoque de teste
-            novoEstoqueInicial.setCodBarras(codBarrasProdutoTeste);
-            novoEstoqueInicial.setCnpjFornecedor(cnpjFornecedorTeste);
-            novoEstoqueInicial.setPrecoVenda(new BigDecimal("18.00"));
-            novoEstoqueInicial.setPrecoCompra(precoCompraInicial);
-            novoEstoqueInicial.setQuantidade(quantidadeEstoqueInicial);
-            novoEstoqueInicial.setData_validade(LocalDate.of(2025, 12, 31));
-            novoEstoqueInicial.setStatusEstoque(NivelEstoque.DISPONIVEL);
-            novoEstoqueInicial.setBaixoEstoque(false);
-            estoqueDAO.inserir(novoEstoqueInicial);
-            System.out.println("Estoque inicial inserido para o produto: " + novoEstoqueInicial.getCodBarras().getCodigoApenasNumeros() + " | Quantidade: " + novoEstoqueInicial.getQuantidade());
-
+            // Insere o novo pedido
+            pedidoDAO.inserir(novoPedido);
+            Thread.sleep(100);
+            System.out.println("✅ Sucesso na inserção do pedido.");
         } catch (Exception e) {
-            System.err.println("❌ ERRO GRAVE NA PREPARAÇÃO DO BANCO DE DADOS PARA O TESTE: " + e.getMessage());
+            System.err.println("❌ Falha na inserção do pedido: " + e.getMessage());
             e.printStackTrace();
             return;
         }
 
-        // --- EXECUTANDO A FORNECEDORSERVICE ---
-        System.out.println("\n--- Executando FornecedorService.cadastrarNovoPedido ---");
-        System.out.println("  ID do Pedido: " + idPedidoTeste);
-        System.out.println("  Produto (Cód): " + codBarrasProdutoTeste.getCodigoApenasNumeros());
-        System.out.println("  Fornecedor (CNPJ): " + cnpjFornecedorTeste.getCnpjFormatado());
-        System.out.println("  Quantidade do Pedido: " + quantidadeDoPedido);
-
-        Pedido pedidoResultante = null;
+        // 4. Testar a consulta
+        System.out.println("\nTentando consultar o pedido pelo ID: " + novoPedido.getIdPedido());
+        Pedido pedidoConsultado = null;
         try {
-            pedidoResultante = fornecedorService.cadastrarNovoPedido(
-                    idPedidoTeste, // Passa o ID fixo
-                    codBarrasProdutoTeste,
-                    cnpjFornecedorTeste,
-                    quantidadeDoPedido
-            );
-
-            if (pedidoResultante != null) {
-                System.out.println("\n✅ SUCESSO! Pedido de compra processado.");
-                System.out.println("   ID do Pedido Gerado: " + pedidoResultante.getIdPedido());
-                System.out.println("   Preço Total do Pedido: " + pedidoResultante.getPreco());
-
-                // 4. Verificar se o estoque foi atualizado (consultando diretamente a DAO de Estoque)
-                System.out.println("\n--- Verificando Estoque Após Pedido ---");
-                Estoque estoqueAtualizado = estoqueDAO.consultarPorCodigoDeBarras(codBarrasProdutoTeste.getCodigoApenasNumeros());
-                if (estoqueAtualizado != null) {
-                    System.out.println("✅ Estoque atualizado para o produto " + estoqueAtualizado.getCodBarras().getCodigoApenasNumeros() + ": " + estoqueAtualizado.getQuantidade() + " unidades.");
-                    int quantidadeEsperada = quantidadeEstoqueInicial + quantidadeDoPedido;
-                    if (estoqueAtualizado.getQuantidade() == quantidadeEsperada) {
-                        System.out.println("✅ Quantidade em estoque CORRETA (" + quantidadeEsperada + ").");
-                    } else {
-                        System.err.println("⚠️ Quantidade em estoque INCORRETA. Esperado: " + quantidadeEsperada + " | Atual: " + estoqueAtualizado.getQuantidade());
-                    }
-                } else {
-                    System.err.println("❌ Falha ao consultar estoque após atualização.");
-                }
-
-                // 5. Verificar se o pedido foi inserido (consultando diretamente a DAO de Pedido)
-                System.out.println("\n--- Verificando Pedido no Registro ---");
-                Pedido pedidoNoRegistro = pedidoDAO.consultarPorId(pedidoResultante.getIdPedido());
-                if (pedidoNoRegistro != null) {
-                    System.out.println("✅ Pedido encontrado no registro com ID: " + pedidoNoRegistro.getIdPedido());
-                    if (pedidoNoRegistro.getQuantidade() == quantidadeDoPedido &&
-                            pedidoNoRegistro.getPreco().compareTo(pedidoResultante.getPreco()) == 0) {
-                        System.out.println("✅ Dados do pedido registrados CORRETAMENTE.");
-                    } else {
-                        System.err.println("⚠️ Dados do pedido registrados INCORRETAMENTE.");
-                    }
-                } else {
-                    System.err.println("❌ Falha ao consultar pedido no registro.");
-                }
-
-            } else {
-                System.err.println("\n❌ Falha! O método cadastrarNovoPedido retornou nulo.");
-            }
-
-        } catch (RuntimeException e) {
-            System.err.println("\n❌ ERRO DURANTE O FLUXO DA FORNECEDORSERVICE: " + e.getMessage());
+            pedidoConsultado = pedidoDAO.consultarPorId(novoPedido.getIdPedido());
+            Thread.sleep(100);
+        } catch (Exception e) {
+            System.err.println("❌ Falha na consulta do pedido: " + e.getMessage());
             e.printStackTrace();
         }
 
-        System.out.println("\n--- Fim do Teste de FornecedorService ---");
+        // 5. Verificar o resultado da consulta
+        if (pedidoConsultado != null) {
+            System.out.println("✅ Sucesso na consulta! Pedido encontrado:");
+            System.out.println("   ID Pedido: " + pedidoConsultado.getIdPedido());
+            System.out.println("   Cód. Barras: " + pedidoConsultado.getCodBarras().getCodigoApenasNumeros());
+            System.out.println("   CNPJ Fornecedor: " + pedidoConsultado.getCpnjFornecedor().getCnpjFormatado());
+            System.out.println("   Quantidade: " + pedidoConsultado.getQuantidade());
+            System.out.println("   Data Pedido: " + pedidoConsultado.getDataPedido());
+            System.out.println("   Preço Total: " + pedidoConsultado.getPreco());
+
+        } else {
+            System.err.println("❌ Falha na consulta: Pedido não encontrado ou ocorreu um erro.");
+        }
+        System.out.println("\n--- Fim do Teste de Pedidos Registrados ---");
     }
 
-    // Métodos auxiliares para facilitar a limpeza (opcional, para testes repetidos)
+    // Você pode descomentar e usar os outros métodos de teste conforme sua necessidade:
+    // private static void testarCadastroDeProdutos() { ... }
+    // private static void testarCadastroCompletoDeProdutoNoEstoque() { ... }
+    // private static void testarFluxoFornecedorService() { ... }
+
+
+    // --- Métodos auxiliares necessários para os testes (não considerados "novas funções de teste") ---
     private static Long getIdEstoquePorCodigoBarras(String codigoDeBarras) {
         EstoqueDAO estoqueDAO = new EstoqueDAO();
         Estoque estoque = estoqueDAO.consultarPorCodigoDeBarras(codigoDeBarras);
@@ -169,8 +115,8 @@ public class Main {
     }
 
     private static Long getUltimoIdPedidoPorCodigoBarras(String codigoDeBarras) {
-        // Implementação mock para o teste, pois não temos um método na PedidoDAO que busque por código de barras.
-        // Para um teste robusto, seria ideal ter esse método na PedidoDAO para limpar dados.
+        // Esta é uma implementação mock para o teste, pois não temos um método na PedidoDAO que busque por código de barras.
+        // Para uma limpeza robusta em testes, seria ideal ter esse método na PedidoDAO para limpar dados.
         return null;
     }
 }

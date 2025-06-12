@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class EstoqueDAO {
     private final ConexaoSQLite conn = new ConexaoSQLite();
@@ -21,8 +22,8 @@ public class EstoqueDAO {
                 "precoCompra," +
                 "quantidade," +
                 "dataDeValidade," +
-                "status_estoque," +
-                "baixoEstoque)" +
+                "status_estoque," + // Nome da coluna
+                "alertaEstoqueBaixo)" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
@@ -39,7 +40,7 @@ public class EstoqueDAO {
                 stmt.setNull(7, java.sql.Types.DATE);
             }
 
-            stmt.setString(8, obj.getStatusEstoque().name());
+            stmt.setString(8, obj.getStatusEstoque().getDbValue()); // CORREÇÃO AQUI: Usa o valor do DB
             stmt.setBoolean(9, obj.isBaixoEstoque());
 
             stmt.executeUpdate();
@@ -50,7 +51,7 @@ public class EstoqueDAO {
         }
     }
 
-    public Estoque consultar(long idEstoque) {
+    public Estoque consultar(Long idEstoque) {
         this.conn.conectar();
         String query = "SELECT * FROM estoque WHERE idEstoque = ?";
 
@@ -80,9 +81,9 @@ public class EstoqueDAO {
 
                 String statusEstoqueStr = retorno.getString("status_estoque");
                 if (statusEstoqueStr != null) {
-                    obj.setStatusEstoque(NivelEstoque.valueOf(statusEstoqueStr));
+                    obj.setStatusEstoque(NivelEstoque.fromDbValue(statusEstoqueStr)); // CORREÇÃO AQUI: Converte do valor do DB
                 }
-                obj.setBaixoEstoque(retorno.getBoolean("baixoEstoque"));
+                obj.setBaixoEstoque(retorno.getBoolean("alertaEstoqueBaixo"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -92,42 +93,37 @@ public class EstoqueDAO {
         return obj;
     }
 
-    public Estoque consultarPorCodigoDeBarras(String codigoDeBarras) {
+    public Estoque consultarPorCodigoDeBarras(String codigoDeBarrasApenasNumeros) {
         this.conn.conectar();
         String query = "SELECT * FROM estoque WHERE codigoDeBarras = ?";
 
         Estoque obj = null;
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setString(1, codigoDeBarras);
+            stmt.setString(1, codigoDeBarrasApenasNumeros);
             ResultSet retorno = stmt.executeQuery();
 
             if (retorno.next()) {
                 obj = new Estoque();
                 obj.setIdEstoque(retorno.getLong("idEstoque"));
-
-                CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
-                obj.setCodBarras(codigoDeBarrasObj);
-
-                CNPJ cnpjFornecedor = new CNPJ(retorno.getString("cnpjFornecedor"));
-                obj.setCnpjFornecedor(cnpjFornecedor);
-
+                obj.setCodBarras(new CodigoDeBarras(retorno.getString("codigoDeBarras")));
+                obj.setCnpjFornecedor(new CNPJ(retorno.getString("cnpjFornecedor")));
                 obj.setPrecoVenda(retorno.getBigDecimal("precoVenda"));
                 obj.setPrecoCompra(retorno.getBigDecimal("precoCompra"));
                 obj.setQuantidade(retorno.getInt("quantidade"));
                 Date sqlDate = retorno.getDate("dataDeValidade");
-
                 if (sqlDate != null) {
                     obj.setData_validade(sqlDate.toLocalDate());
                 }
-
                 String statusEstoqueStr = retorno.getString("status_estoque");
                 if (statusEstoqueStr != null) {
-                    obj.setStatusEstoque(NivelEstoque.valueOf(statusEstoqueStr));
+                    obj.setStatusEstoque(NivelEstoque.fromDbValue(statusEstoqueStr)); // CORREÇÃO AQUI: Converte do valor do DB
                 }
-                obj.setBaixoEstoque(retorno.getBoolean("baixoEstoque"));
+                obj.setBaixoEstoque(retorno.getBoolean("alertaEstoqueBaixo"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Erro ao criar objeto de valor (CodigoDeBarras/CNPJ): " + e.getMessage());
         } finally {
             this.conn.desconectar();
         }
@@ -144,7 +140,7 @@ public class EstoqueDAO {
                 "quantidade = ?, " +
                 "dataDeValidade = ?, " +
                 "status_estoque = ?, " +
-                "baixoEstoque = ? " +
+                "alertaEstoqueBaixo = ? " +
                 "WHERE idEstoque = ?";
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
@@ -160,7 +156,7 @@ public class EstoqueDAO {
                 stmt.setNull(6, java.sql.Types.DATE);
             }
 
-            stmt.setString(7, obj.getStatusEstoque().name());
+            stmt.setString(7, obj.getStatusEstoque().getDbValue()); // CORREÇÃO AQUI: Usa o valor do DB
             stmt.setBoolean(8, obj.isBaixoEstoque());
             stmt.setLong(9, obj.getIdEstoque());
 
