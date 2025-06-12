@@ -42,7 +42,7 @@ public class CNPJ {
         return (resto < 2) ? 0 : (11 - resto);
     }
 
-    public String getrCnpjFormatado() {
+    public String getCnpjFormatado() {
         if (this.cnpj == null || this.cnpj.length() != 14) {
             return this.cnpj;
         }

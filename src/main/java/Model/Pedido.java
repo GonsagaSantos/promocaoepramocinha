@@ -3,22 +3,27 @@ package Model;
 import Services.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Pedido {
     private Long idPedido;
     private CodigoDeBarras codBarras;
     private CNPJ cpnjFornecedor;
     private int quantidade;
-    private LocalDate dataPedido;
+    private Date dataPedido;
     private BigDecimal preco;
 
-    public Pedido(Long idPedido, CodigoDeBarras codBarras, CNPJ cpnjFornecedor, int quantidade, LocalDate dataPedido, BigDecimal preco) {
+    public Pedido(Long idPedido, CodigoDeBarras codBarras, CNPJ cpnjFornecedor, int quantidade, Date dataPedido, BigDecimal preco) {
         setIdPedido(idPedido);
         setCodBarras(codBarras);
         setCpnjFornecedor(cpnjFornecedor);
         setQuantidade(quantidade);
         setDataPedido(dataPedido);
         setPreco(preco);
+    }
+
+    public Pedido() {
+
     }
 
     public Long getIdPedido() {
@@ -53,11 +58,11 @@ public class Pedido {
         this.quantidade = quantidade;
     }
 
-    public LocalDate getDataPedido() {
+    public Date getDataPedido() {
         return dataPedido;
     }
 
-    public void setDataPedido(LocalDate dataPedido) {
+    public void setDataPedido(Date dataPedido) {
         this.dataPedido = dataPedido;
     }
 

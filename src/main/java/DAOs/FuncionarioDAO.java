@@ -1,7 +1,6 @@
 package DAOs;
 
 import Model.Funcionario;
-import Model.Produto;
 import Services.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
