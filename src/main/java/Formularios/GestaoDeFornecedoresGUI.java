@@ -3,6 +3,8 @@ package Formularios;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
+
 
 public class GestaoDeFornecedoresGUI extends JFrame {
     private JTextArea tituloFormulario;
@@ -11,6 +13,11 @@ public class GestaoDeFornecedoresGUI extends JFrame {
     private JButton buttonHistoricoPedidos;
 
     public GestaoDeFornecedoresGUI() {
+        setTitle("Menu Principal");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
         buttonCadastrarFornecedores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

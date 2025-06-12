@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import static java.sql.Types.VARCHAR;
+
 public class PedidoDAO {
     private final ConexaoSQLite conn = new ConexaoSQLite();
 
@@ -87,9 +89,9 @@ public class PedidoDAO {
             stmt.setInt(3, obj.getQuantidade());
 
             if (obj.getDataPedido() != null) {
-                stmt.setDate(4, Date.valueOf(obj.getDataPedido()));
+                stmt.setString(4, obj.getDataPedido().toString());
             } else {
-                stmt.setNull(4, java.sql.Types.DATE);
+                stmt.setNull(4, VARCHAR);
             }
 
             stmt.setBigDecimal(5, obj.getPreco());
@@ -153,7 +155,7 @@ public class PedidoDAO {
         Pedido pedido = null;
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setDate(1, Date.valueOf(data));
+            stmt.setString(1, data.toString());
             ResultSet retorno = stmt.executeQuery();
 
             if (retorno.next()) {
