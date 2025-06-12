@@ -1,23 +1,23 @@
 package Model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDate; // Usar LocalDate para datas no modelo
 
-import Enum.*;
+import Enum.NivelEstoque;
 
 public class Estoque {
     private Long idEstoque;
-    private Produtos codBarras;
-    private String cnpjFornecedor;
+    private String codBarras; // Usar java.lang.String
+    private String cnpjFornecedor; // Usar java.lang.String
     private BigDecimal precoVenda;
     private BigDecimal precoCompra;
     private int quantidade;
-    private LocalDate data_validade;
+    private LocalDate data_validade; // Campo como LocalDate
     private NivelEstoque statusEstoque;
     private boolean baixoEstoque;
 
 
-    public Estoque(Long idEstoque, Produtos codBarras, String cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
+    public Estoque(Long idEstoque, String codBarras, String cnpjFornecedor, BigDecimal precoVenda, BigDecimal precoCompra, int quantidade, LocalDate data_validade, NivelEstoque statusEstoque, boolean baixoEstoque) {
         this.idEstoque = idEstoque;
         this.codBarras = codBarras;
         this.cnpjFornecedor = cnpjFornecedor;
@@ -29,6 +29,10 @@ public class Estoque {
         this.baixoEstoque = baixoEstoque;
     }
 
+    // Construtor padrão adicionado, se necessário
+    public Estoque() {
+    }
+
     public Long getIdEstoque() {
         return idEstoque;
     }
@@ -37,11 +41,11 @@ public class Estoque {
         this.idEstoque = idEstoque;
     }
 
-    public Produtos getCodBarras() {
+    public String getCodBarras() { // Retorna java.lang.String
         return codBarras;
     }
 
-    public void setCodBarras(Produtos codBarras) {
+    public void setCodBarras(String codBarras) { // Recebe java.lang.String
         this.codBarras = codBarras;
     }
 
@@ -69,11 +73,11 @@ public class Estoque {
         this.quantidade = quantidade;
     }
 
-    public LocalDate getData_validade() {
+    public LocalDate getData_validade() { // Retorna LocalDate
         return data_validade;
     }
 
-    public void setData_validade(LocalDate data_validade) {
+    public void setData_validade(LocalDate data_validade) { // Recebe LocalDate
         this.data_validade = data_validade;
     }
 
@@ -93,11 +97,11 @@ public class Estoque {
         this.baixoEstoque = baixoEstoque;
     }
 
-    public String getCnpjFornecedor() {
+    public String getCnpjFornecedor() { // Retorna java.lang.String
         return cnpjFornecedor;
     }
 
-    public void setCnpjFornecedor(String cnpjFornecedor) {
+    public void setCnpjFornecedor(String cnpjFornecedor) { // Recebe java.lang.String
         this.cnpjFornecedor = cnpjFornecedor;
     }
 }

@@ -1,6 +1,6 @@
 package DAOs;
 
-import Model.Produtos;
+import Model.String;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,12 +10,10 @@ public class ProdutosDAO {
 
     private final ConexaoSQLite conn = new ConexaoSQLite();
 
-    public void inserir(Produtos obj) {
+    public void inserir(String obj) {
         this.conn.conectar();
-        String query = "INSERT INTO produtos_cadastrados(codigoDeBarras, nome, categoria, marca) VALUES(?, ?, ?, ?)";
-        //PreparedStatement stmt = this.conn.preparedStatement(query);
+        java.lang.String query = "INSERT INTO produtos_cadastrados(codigoDeBarras, nome, categoria, marca) VALUES(?, ?, ?, ?)";
 
-        byte var5;
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setString(1, obj.getCodBarras());
             stmt.setString(2, obj.getNome());
@@ -25,39 +23,32 @@ public class ProdutosDAO {
             stmt.executeUpdate();
         } catch (SQLException err) {
             err.printStackTrace();
-            var5 = 0;
         } finally {
             this.conn.desconectar();
         }
-
     }
 
-    public Produtos consultar() {
+    public String consultar() {
         this.conn.conectar();
-        String query = "SELECT * FROM produtos_cadastrados";
+        java.lang.String query = "SELECT * FROM produtos_cadastrados";
 
-        Produtos var5;
+        String obj = null;
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
             ResultSet retorno = stmt.executeQuery();
 
-            Produtos obj = new Produtos();
-            obj.setCodBarras(retorno.getString("codigoDeBarras"));
-            obj.setNome(retorno.getString("nome"));
-            obj.setCategoria(retorno.getString("categoria"));
-            obj.setMarca(retorno.getString("marca"));
+            if (retorno.next()) {
+                obj = new String();
+                obj.setCodBarras(retorno.getString("codigoDeBarras"));
+                obj.setNome(retorno.getString("nome"));
+                obj.setCategoria(retorno.getString("categoria"));
+                obj.setMarca(retorno.getString("marca"));
+            }
 
-            var5 = obj;
         } catch (SQLException err) {
             System.out.println(err.getMessage());
-            Produtos obj = null;
-            return (Produtos)obj;
         } finally {
             this.conn.desconectar();
         }
-
-        return var5;
+        return obj;
     }
-
-
-
 }

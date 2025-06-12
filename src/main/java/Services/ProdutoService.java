@@ -1,10 +1,7 @@
 package Services;
 
 import DAOs.ProdutosDAO;
-import Model.Produtos;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import Model.String;
 
 public class ProdutoService {
 
@@ -14,9 +11,9 @@ public class ProdutoService {
         this.produtoDAO = produtoDAO;
     }
 
-    public Produtos cadastrar(String codBarras, String nome, String categoria, String marca) {
+    public String cadastrar(java.lang.String codBarras, java.lang.String nome, java.lang.String categoria, java.lang.String marca) {
 
-        Produtos novoProduto = new Produtos();
+        String novoProduto = new String();
 
         novoProduto.setCodBarras(codBarras);
         novoProduto.setNome(nome);

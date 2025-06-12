@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 public class DetalhesVenda {
     private Long idDetalhesVenda;
     private Vendas idVendas;
-    private Produtos codigoDeBarrasProduto;
-    private String nomeItem;
+    private String codigoDeBarrasProduto;
+    private java.lang.String nomeItem;
     private int quantidade;
     private BigDecimal preco;
     private BigDecimal subtotal;
 
-    public DetalhesVenda(Long idDetalhes, Vendas idVendas, Produtos codigoDeBarrasProduto, String nomeItem, int quantidade, BigDecimal preco, BigDecimal subtotal) {
+    public DetalhesVenda(Long idDetalhes, Vendas idVendas, String codigoDeBarrasProduto, java.lang.String nomeItem, int quantidade, BigDecimal preco, BigDecimal subtotal) {
         setIdDetalhes(idDetalhes);
         setIdVenda(idVendas);
         setCodigoDeBarrasProduto(codigoDeBarrasProduto);
@@ -37,19 +37,19 @@ public class DetalhesVenda {
         this.idVendas = idVendas;
     }
 
-    public Produtos getCodigoDeBarrasProduto() {
+    public String getCodigoDeBarrasProduto() {
         return codigoDeBarrasProduto;
     }
 
-    public void setCodigoDeBarrasProduto(Produtos codigoDeBarrasProduto) {
+    public void setCodigoDeBarrasProduto(String codigoDeBarrasProduto) {
         this.codigoDeBarrasProduto = codigoDeBarrasProduto;
     }
 
-    public String getNomeItem() {
+    public java.lang.String getNomeItem() {
         return nomeItem;
     }
 
-    public void setNomeItem(String nomeItem) {
+    public void setNomeItem(java.lang.String nomeItem) {
         this.nomeItem = nomeItem;
     }
 

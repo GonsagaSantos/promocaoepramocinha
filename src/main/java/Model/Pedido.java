@@ -5,13 +5,13 @@ import java.time.LocalDate;
 
 public class Pedido {
     private Long idPedido;
-    private Produtos codBarras;
+    private String codBarras;
     private Fornecedor cpnjFornecedor;
     private int quantidade;
     private LocalDate dataPedido;
     private BigDecimal preco;
 
-    public Pedido(Long idPedido, Produtos codBarras, Fornecedor cpnjFornecedor, int quantidade, LocalDate dataPedido, BigDecimal preco) {
+    public Pedido(Long idPedido, String codBarras, Fornecedor cpnjFornecedor, int quantidade, LocalDate dataPedido, BigDecimal preco) {
         setIdPedido(idPedido);
         setCodBarras(codBarras);
         setCpnjFornecedor(cpnjFornecedor);
@@ -28,11 +28,11 @@ public class Pedido {
         this.idPedido = idPedido;
     }
 
-    public Produtos getCodBarras() {
+    public String getCodBarras() {
         return codBarras;
     }
 
-    public void setCodBarras(Produtos codBarras) {
+    public void setCodBarras(String codBarras) {
         this.codBarras = codBarras;
     }
 
