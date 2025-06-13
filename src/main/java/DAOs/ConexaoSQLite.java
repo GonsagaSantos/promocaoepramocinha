@@ -10,8 +10,6 @@ public class ConexaoSQLite {
             this.conexao = DriverManager.getConnection(
                     "jdbc:sqlite:.\\database\\database"
             );
-
-
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return false;
