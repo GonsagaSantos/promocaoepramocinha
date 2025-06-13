@@ -7,9 +7,9 @@ public class Main {
         gestaoFornecedoresGUI.setVisible(false);
 
         HistoricoPedidosGUI historicoPedidosGUI = new HistoricoPedidosGUI();
-        historicoPedidosGUI.setVisible(false);
+        historicoPedidosGUI.setVisible(true);
 
         CadastrarFornecedorGUI cadastrarFornecedorGUI = new CadastrarFornecedorGUI();
-        cadastrarFornecedorGUI.setVisible(true);
+        cadastrarFornecedorGUI.setVisible(false);
     }
 }
