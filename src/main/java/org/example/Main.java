@@ -1,17 +1,15 @@
 package org.example;
 
-import Formularios.GestaoDeFornecedoresGUI;
-
-import javax.swing.*;
-
+import Formularios.*;
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                GestaoDeFornecedoresGUI gestaoFornecedoresGUI = new GestaoDeFornecedoresGUI();
-                gestaoFornecedoresGUI.setVisible(true);
-            }
-        });
+        GestaoDeFornecedoresGUI gestaoFornecedoresGUI = new GestaoDeFornecedoresGUI();
+        gestaoFornecedoresGUI.setVisible(false);
+
+        HistoricoPedidosGUI historicoPedidosGUI = new HistoricoPedidosGUI();
+        historicoPedidosGUI.setVisible(false);
+
+        CadastrarFornecedorGUI cadastrarFornecedorGUI = new CadastrarFornecedorGUI();
+        cadastrarFornecedorGUI.setVisible(true);
     }
 }

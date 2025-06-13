@@ -27,7 +27,7 @@ public class CadastrarFornecedorGUI extends JFrame {
     public CadastrarFornecedorGUI() {
         setTitle("Cadastro de Fornecedor");
         setContentPane(CadastrarFuncionario);
-        setSize(500, 450);
+        setSize(500, 250);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
