@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import static java.sql.Types.VARCHAR;
+
 public class PedidoDAO {
     private final ConexaoSQLite conn = new ConexaoSQLite();
 
@@ -55,14 +57,10 @@ public class PedidoDAO {
                 String cnpjFornecedor = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
                 Date sqlDate = retorno.getDate("dataDoPedido");
-
-                LocalDate dataPedido;
+                LocalDate dataPedido = null;
                 if (sqlDate != null) {
                     dataPedido = sqlDate.toLocalDate();
-                } else {
-                    dataPedido = null;
                 }
-
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
 
                 obj = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedor, quantidade, dataPedido, preco);
@@ -91,9 +89,9 @@ public class PedidoDAO {
             stmt.setInt(3, obj.getQuantidade());
 
             if (obj.getDataPedido() != null) {
-                stmt.setDate(4, Date.valueOf(obj.getDataPedido()));
+                stmt.setString(4, obj.getDataPedido().toString());
             } else {
-                stmt.setNull(4, java.sql.Types.DATE);
+                stmt.setNull(4, VARCHAR);
             }
 
             stmt.setBigDecimal(5, obj.getPreco());
@@ -123,27 +121,23 @@ public class PedidoDAO {
 
     public Pedido consultarPedidoPorCnpjFornecedor(String cnpjNumeros) {
         this.conn.conectar();
-        String query = "SELECT * FROM registroPedidos WHERE cnpjFornecedor = ? LIMIT 1"; // Adicionado LIMIT 1
+        String query = "SELECT * FROM registroPedidos WHERE cnpjFornecedor = ? LIMIT 1";
         Pedido pedido = null;
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setString(1, cnpjNumeros);
             ResultSet retorno = stmt.executeQuery();
 
-            if (retorno.next()) { // Usa if em vez de while, já que esperamos apenas um
+            if (retorno.next()) {
                 Long idRegistroPedido = retorno.getLong("idRegistroPedido");
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
                 String cnpjFornecedor = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
                 Date sqlDate = retorno.getDate("dataDoPedido");
-
-                LocalDate dataPedido;
+                LocalDate dataPedido = null;
                 if (sqlDate != null) {
                     dataPedido = sqlDate.toLocalDate();
-                } else {
-                    dataPedido = null;
                 }
-
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
                 pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedor, quantidade, dataPedido, preco);
             }
@@ -157,29 +151,25 @@ public class PedidoDAO {
 
     public Pedido consultarPedidoPorData(LocalDate data) {
         this.conn.conectar();
-        String query = "SELECT * FROM registroPedidos WHERE dataDoPedido = ? LIMIT 1"; // Adicionado LIMIT 1
+        String query = "SELECT * FROM registroPedidos WHERE dataDoPedido = ? LIMIT 1";
         Pedido pedido = null;
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
-            stmt.setDate(1, Date.valueOf(data));
+            stmt.setString(1, data.toString());
             ResultSet retorno = stmt.executeQuery();
 
-            if (retorno.next()) { // Usa if em vez de while
+            if (retorno.next()) {
                 Long idRegistroPedido = retorno.getLong("idRegistroPedido");
                 CodigoDeBarras codigoDeBarrasObj = new CodigoDeBarras(retorno.getString("codigoDeBarras"));
-                String cnpjFornecedor = retorno.getString("cnpjFornecedor");
+                String cnpjFornecedorStr = retorno.getString("cnpjFornecedor");
                 int quantidade = retorno.getInt("quantidade");
                 Date sqlDate = retorno.getDate("dataDoPedido");
-
-                LocalDate dataPedido;
+                LocalDate dataPedido = null;
                 if (sqlDate != null) {
                     dataPedido = sqlDate.toLocalDate();
-                } else {
-                    dataPedido = null;
                 }
-
                 BigDecimal preco = retorno.getBigDecimal("precoTotalPedido");
-                pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedor, quantidade, dataPedido, preco);
+                pedido = new Pedido(idRegistroPedido, codigoDeBarrasObj, cnpjFornecedorStr, quantidade, dataPedido, preco);
             }
         } catch (SQLException | IllegalArgumentException e) {
             e.printStackTrace();

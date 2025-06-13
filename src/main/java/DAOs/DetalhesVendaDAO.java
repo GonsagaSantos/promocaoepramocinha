@@ -10,13 +10,13 @@ public class DetalhesVendaDAO {
 
     public void inserir(DetalhesVenda obj) {
         this.conn.conectar();
-        String query = "INSERT INTO detalhes_venda(" +
+        String query = "INSERT INTO detalhesVenda(" +
                 "idDetalhesVenda," +
-                "idVendas," +
+                "idVenda," +
                 "codigoDeBarrasProduto," +
-                "nomeItem," +
+                "nomeDoItem," +
                 "quantidade," +
-                "preco," +
+                "precoDoItem," +
                 "subtotal)" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
@@ -39,7 +39,7 @@ public class DetalhesVendaDAO {
 
     public DetalhesVenda consultar(long idDetalhesVenda) {
         this.conn.conectar();
-        String query = "SELECT * FROM detalhes_venda WHERE idDetalhesVenda = ?";
+        String query = "SELECT * FROM detalhesVenda WHERE idDetalhesVenda = ?";
 
         DetalhesVenda obj = null;
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
@@ -48,11 +48,11 @@ public class DetalhesVendaDAO {
 
             if (retorno.next()) {
                 long id = retorno.getLong("idDetalhesVenda");
-                long idVendaFk = retorno.getLong("idVendas");
+                long idVendaFk = retorno.getLong("idVenda");
                 String codigoDeBarrasProdutoStr = retorno.getString("codigoDeBarrasProduto");
-                String nomeItem = retorno.getString("nomeItem");
+                String nomeItem = retorno.getString("nomeDoItem");
                 int quantidade = retorno.getInt("quantidade");
-                BigDecimal preco = retorno.getBigDecimal("preco");
+                BigDecimal preco = retorno.getBigDecimal("precoDoItem");
                 BigDecimal subtotal = retorno.getBigDecimal("subtotal");
 
                 Vendas vendaPlaceholder = new Vendas(idVendaFk, null, null,
@@ -72,12 +72,12 @@ public class DetalhesVendaDAO {
 
     public void alterar(DetalhesVenda obj) {
         this.conn.conectar();
-        String query = "UPDATE detalhesVenda SET" +
+        String query = "UPDATE detalhesVenda SET " +
                 "idVenda = ?," +
                 "codigoDeBarrasProduto = ?," +
                 "nomeDoItem = ?," +
                 "quantidade = ?," +
-                "precoDoITEM = ?," +
+                "precoDoItem = ?," +
                 "subtotal = ? " +
                 "where idDetalhesVenda = ?";
 
@@ -100,7 +100,7 @@ public class DetalhesVendaDAO {
 
     public void excluir(long idDetalhesVenda) {
         this.conn.conectar();
-        String query = "DELETE FROM detalhes_venda WHERE idDetalhesVenda = ?";
+        String query = "DELETE FROM detalhesVenda WHERE idDetalhesVenda = ?";
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
             stmt.setLong(1, idDetalhesVenda);

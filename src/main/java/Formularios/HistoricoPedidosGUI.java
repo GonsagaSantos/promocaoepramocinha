@@ -51,7 +51,8 @@ public class HistoricoPedidosGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String cnpj = fTxtFieldCNPJ.getText();
-                Pedido pedido = pedidoDAO.consultarPedidoPorCnpjFornecedor(cnpj);
+                String cnpjSomenteNumeros = cnpj.replaceAll("[^0-9]", "");
+                Pedido pedido = pedidoDAO.consultarPedidoPorCnpjFornecedor(cnpjSomenteNumeros);
                 displayPedido(pedido);
             }
         });

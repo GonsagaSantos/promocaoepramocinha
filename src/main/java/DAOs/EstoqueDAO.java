@@ -22,7 +22,7 @@ public class EstoqueDAO {
                 "quantidade," +
                 "dataDeValidade," +
                 "status_estoque," +
-                "baixoEstoque)" +
+                "alertaEstoqueBaixo)" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try(PreparedStatement stmt = this.conn.preparedStatement(query)) {
@@ -39,7 +39,25 @@ public class EstoqueDAO {
                 stmt.setNull(7, java.sql.Types.DATE);
             }
 
-            stmt.setString(8, obj.getStatusEstoque().name());
+            String statusEstoqueForDB = "";
+            switch (obj.getStatusEstoque()) {
+                case ESTOQUE_ALTO:
+                    statusEstoqueForDB = "Estoque Alto";
+                    break;
+                case DISPONIVEL:
+                    statusEstoqueForDB = "Disponivel";
+                    break;
+                case QUANTIDADE_MINIMA:
+                    statusEstoqueForDB = "Quantidade Mínima";
+                    break;
+                case ESTOQUE_BAIXO:
+                    statusEstoqueForDB = "Estoque Baixo";
+                    break;
+                case INDISPONIVEL:
+                    statusEstoqueForDB = "Indisponível";
+                    break;
+            }
+            stmt.setString(8, statusEstoqueForDB);
             stmt.setBoolean(9, obj.isBaixoEstoque());
 
             stmt.executeUpdate();
@@ -78,9 +96,25 @@ public class EstoqueDAO {
 
                 String statusEstoqueStr = retorno.getString("status_estoque");
                 if (statusEstoqueStr != null) {
-                    obj.setStatusEstoque(NivelEstoque.valueOf(statusEstoqueStr));
+                    switch (statusEstoqueStr) {
+                        case "Estoque Alto":
+                            obj.setStatusEstoque(NivelEstoque.ESTOQUE_ALTO);
+                            break;
+                        case "Disponivel":
+                            obj.setStatusEstoque(NivelEstoque.DISPONIVEL);
+                            break;
+                        case "Quantidade Mínima":
+                            obj.setStatusEstoque(NivelEstoque.QUANTIDADE_MINIMA);
+                            break;
+                        case "Estoque Baixo":
+                            obj.setStatusEstoque(NivelEstoque.ESTOQUE_BAIXO);
+                            break;
+                        case "Indisponível":
+                            obj.setStatusEstoque(NivelEstoque.INDISPONIVEL);
+                            break;
+                    }
                 }
-                obj.setBaixoEstoque(retorno.getBoolean("baixoEstoque"));
+                obj.setBaixoEstoque(retorno.getBoolean("alertaEstoqueBaixo"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -100,7 +134,7 @@ public class EstoqueDAO {
                 "quantidade = ?, " +
                 "dataDeValidade = ?, " +
                 "status_estoque = ?, " +
-                "baixoEstoque = ? " +
+                "alertaEstoqueBaixo = ? " +
                 "WHERE idEstoque = ?";
 
         try (PreparedStatement stmt = this.conn.preparedStatement(query)) {
@@ -116,7 +150,25 @@ public class EstoqueDAO {
                 stmt.setNull(6, java.sql.Types.DATE);
             }
 
-            stmt.setString(7, obj.getStatusEstoque().name());
+            String statusEstoqueForDB = "";
+            switch (obj.getStatusEstoque()) {
+                case ESTOQUE_ALTO:
+                    statusEstoqueForDB = "Estoque Alto";
+                    break;
+                case DISPONIVEL:
+                    statusEstoqueForDB = "Disponivel";
+                    break;
+                case QUANTIDADE_MINIMA:
+                    statusEstoqueForDB = "Quantidade Mínima";
+                    break;
+                case ESTOQUE_BAIXO:
+                    statusEstoqueForDB = "Estoque Baixo";
+                    break;
+                case INDISPONIVEL:
+                    statusEstoqueForDB = "Indisponível";
+                    break;
+            }
+            stmt.setString(7, statusEstoqueForDB);
             stmt.setBoolean(8, obj.isBaixoEstoque());
             stmt.setLong(9, obj.getIdEstoque());
 
